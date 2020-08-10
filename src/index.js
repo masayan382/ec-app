@@ -4,9 +4,9 @@ import { Provider } from "react-redux";
 import createStore from "./reducks/store/store";
 import { ConnectedRouter } from "connected-react-router";
 import * as History from "history";
+import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 import App from "./App";
-import * as serviceWorker from "./serviceWorker";
 
 const history = History.createBrowserHistory();
 export const store = createStore(history);
