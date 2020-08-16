@@ -1,8 +1,8 @@
 export const initialState = {
 	product: {},
 	users: {
-		icon: "",
 		isSignedIn: false,
+		role: "",
 		uid: "",
 		username: "",
 	},
