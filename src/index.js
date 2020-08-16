@@ -5,7 +5,6 @@ import createStore from "./reducks/store/store";
 import { ConnectedRouter } from "connected-react-router";
 import * as History from "history";
 import * as serviceWorker from "./serviceWorker";
-import "./index.css";
 import App from "./App";
 
 const history = History.createBrowserHistory();
