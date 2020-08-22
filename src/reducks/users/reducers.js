@@ -10,7 +10,7 @@ export const UsersReducer = (state = initialState.users, action) => {
 			};
 		case Actions.SIGN_OUT:
 			return {
-				...initialState.users,
+				...action.users,
 			};
 		default:
 			return state;
