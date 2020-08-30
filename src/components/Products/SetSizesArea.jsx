@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { TextInput } from "../UIkit";
 import IconButton from "@material-ui/core/IconButton";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
@@ -76,11 +76,11 @@ const SetSizesArea = (props) => {
 	};
 
 	const deleteSize = (deleteIndex) => {
-		const newSizes = props.sizes.filter((item, index) => index !== deleteIndex);
+		const newSizes = props.sizes.filter((item, i) => i !== deleteIndex);
 		props.setSizes(newSizes);
 	};
 
-	useEffect(() => {
+	const memoIndex = useMemo(() => {
 		setIndex(props.sizes.length);
 	}, [props.sizes.length]);
 
@@ -98,24 +98,22 @@ const SetSizesArea = (props) => {
 					</TableHead>
 					<TableBody>
 						{props.sizes.length > 0 &&
-							props.sizes.map((item, index) => (
+							props.sizes.map((item, i) => (
 								<TableRow key={item.size}>
-									<TableCell component='th' scope='row'>
-										{item.size}
-									</TableCell>
+									<TableCell>{item.size}</TableCell>
 									<TableCell>{item.quantity}</TableCell>
-									<TableCell className={classes.iconCell}>
+									<TableCell>
 										<IconButton
 											className={classes.iconCell}
-											onClick={() => editSize(index, item.size, item.quantity)}
+											onClick={() => editSize(i, item.size, item.quantity)}
 										>
 											<EditIcon />
 										</IconButton>
 									</TableCell>
-									<TableCell className={classes.iconCell}>
+									<TableCell>
 										<IconButton
 											className={classes.iconCell}
-											onClick={() => deleteSize(index)}
+											onClick={() => deleteSize(i)}
 										>
 											<DeleteIcon />
 										</IconButton>
