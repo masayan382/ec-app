@@ -83,51 +83,51 @@ const ProductCard = (props) => {
 		<Card className={classes.root}>
 			<CardMedia
 				className={classes.media}
-				image={props.images[0].path}
-				onClick={() => dispatch(push("/product/ + props.id"))}
+				image={images[0].path}
+				onClick={() => dispatch(push("/product/" + props.id))}
 				title=''
-			>
-				<CardContent className={classes.content}>
-					<div onClick={() => dispatch(push("/product/ + props.id"))}>
-						<Typography
-							className={classes.productName}
-							color='textSecondary'
-							component='p'
-						>
-							{props.name}
-						</Typography>
-						<Typography className={classes.price} component='p'>
-							¥{price}
-						</Typography>
-					</div>
-					<IconButton className={classes.icon} onClic={handleClick}>
-						<MoreVertIcon />
-					</IconButton>
-					<Menu
-						anchorEl={anchorEl}
-						keepMounted
-						open={Boolean(anchorEl)}
-						onClose={handleClose}
+			/>
+			<CardContent className={classes.content}>
+				<div onClick={() => dispatch(push("/product/" + props.id))}>
+					<Typography
+						className={classes.productName}
+						color='textSecondary'
+						component='p'
 					>
-						<MenuItem
-							onClick={() => {
-								dispatch(push("/product/edit/" + props.id));
-								handleClose();
-							}}
-						>
-							編集する
-						</MenuItem>
-						<MenuItem
-							onClick={() => {
-								dispatch(deleteProduct(props.id));
-								handleClose();
-							}}
-						>
-							削除する
-						</MenuItem>
-					</Menu>
-				</CardContent>
-			</CardMedia>
+						{props.name}
+					</Typography>
+					<Typography className={classes.price} component='p'>
+						¥{price}
+					</Typography>
+				</div>
+				<IconButton className={classes.icon} onClick={handleClick}>
+					<MoreVertIcon />
+				</IconButton>
+				<Menu
+					id='menu-appbar'
+					anchorEl={anchorEl}
+					keepMounted
+					open={Boolean(anchorEl)}
+					onClose={handleClose}
+				>
+					<MenuItem
+						onClick={() => {
+							dispatch(push("/product/edit/" + props.id));
+							handleClose();
+						}}
+					>
+						編集する
+					</MenuItem>
+					<MenuItem
+						onClick={() => {
+							dispatch(deleteProduct(props.id));
+							handleClose();
+						}}
+					>
+						削除する
+					</MenuItem>
+				</Menu>
+			</CardContent>
 		</Card>
 	);
 };
