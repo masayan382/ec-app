@@ -12,10 +12,11 @@ const ImageSwiper = (props) => {
 			dynamiccBullets: true,
 		},
 		navigation: {
-			nextEL: ".swiper-button-next",
-			prevEL: ".swiper-button-prev",
+			nextEl: ".swiper-button-next",
+			prevEl: ".swiper-button-prev",
 		},
 		loop: true,
+		spaceBetween: 30,
 	});
 	const images = props.images;
 
