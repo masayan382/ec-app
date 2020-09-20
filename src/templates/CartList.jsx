@@ -40,9 +40,9 @@ const CartList = () => {
 			</List>
 			<div className='module-spacer--medium' />
 			<div className='p-grid__column'>
-				<PrimaryButton label={"レジへ進む"} onClic={goToOrder} />
+				<PrimaryButton label={"レジへ進む"} onClick={goToOrder} />
 				<div className='module-spacer--extra-extra-small'></div>
-				<GreyButton label={"ショッピングを続ける"} onClic={backToHome} />
+				<GreyButton label={"ショッピングを続ける"} onClick={backToHome} />
 			</div>
 		</section>
 	);
