@@ -28,7 +28,7 @@ const ImageSwiper = (props) => {
 				</div>
 			) : (
 				images.map((image) => (
-					<div className='p-media__thumb'>
+					<div className='p-media__thumb' key={image.id}>
 						<img src={image.path} alt='商品画像' />
 					</div>
 				))
