@@ -1,4 +1,4 @@
-import { db, FirebaseTimestamp } from "../../firebase";
+import { db, FirebaseTimestamp } from "../../firebase/index";
 import { push } from "connected-react-router";
 import { deleteProductsAction, fetchProductsAction } from "./actions";
 
@@ -106,7 +106,8 @@ export const orderProduct = (productsInCart, amount) => {
 					};
 
 					orderRef.set(history);
-					dispatch(push("/order/complate"));
+					dispatch(push("/"));
+					// dispatch(push("/order/complate"));
 				})
 				.catch(() => {
 					alert(

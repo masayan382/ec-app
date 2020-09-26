@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import logo from "../../assets/img/icons/logo.png";
+import logo from "../../assets/img/icons/monokuro.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getSignedIn } from "../../reducks/users/selectors";
 import { push } from "connected-react-router";
@@ -54,7 +54,7 @@ const Header = () => {
 					<img
 						src={logo}
 						alt='Logo'
-						width='128px'
+						width='50px'
 						onClick={() => dispatch(push("/"))}
 						role='button'
 					/>
