@@ -55,7 +55,7 @@ const OrderConfirm = () => {
 					<List>
 						{productsInCart.length > 0 &&
 							productsInCart.map((product) => (
-								<CartListItem key={product.carId} product={product} />
+								<CartListItem key={product.cartId} product={product} />
 							))}
 					</List>
 				</div>

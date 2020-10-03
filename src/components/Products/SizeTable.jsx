@@ -23,12 +23,10 @@ const SizeTable = (props) => {
 	const sizes = props.sizes;
 	const id = props.id;
 
-	console.log("props.favorite:" + props.favorite);
-
 	const [favorite, setFavorite] = useState(props.favorite);
 
 	const dataF = favorite;
-	console.log("dataF:" + dataF);
+
 	const changeFavorite = (id) => {
 		db.collection("products").doc(id).update({ favorite: dataF });
 	};
