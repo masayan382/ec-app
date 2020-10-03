@@ -6,4 +6,5 @@ export { default as OrderHistoryItem } from "./OrderHistoryItem";
 export { default as OrderdProducts } from "./OrderdProducts";
 export { default as SetSizesArea } from "./SetSizesArea";
 export { default as SizeTable } from "./SizeTable";
+export { default as SwitchFavoriteIcon } from "./SwitchFavoriteIcon";
 export { default as ProductCard } from "./ProductCard";

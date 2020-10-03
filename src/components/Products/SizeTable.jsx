@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,7 +7,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles } from "@material-ui/styles";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { db } from "../../firebase/index";
+import { SwitchFavoriteIcon } from "./index";
 
 const useStyles = makeStyles({
 	iconCell: {
@@ -20,6 +21,23 @@ const useStyles = makeStyles({
 const SizeTable = (props) => {
 	const classes = useStyles();
 	const sizes = props.sizes;
+	const id = props.id;
+
+	console.log("props.favorite:" + props.favorite);
+
+	const [favorite, setFavorite] = useState(props.favorite);
+
+	const dataF = favorite;
+	console.log("dataF:" + dataF);
+	const changeFavorite = (id) => {
+		db.collection("products").doc(id).update({ favorite: dataF });
+	};
+
+	useEffect(() => {
+		if (favorite !== setFavorite) {
+			changeFavorite(id);
+		}
+	}, [favorite]);
 
 	return (
 		<TableContainer>
@@ -41,10 +59,13 @@ const SizeTable = (props) => {
 										<div>売切</div>
 									)}
 								</TableCell>
-								<TableCell className={classes.iconCell}>
-									<IconButton>
-										<FavoriteBorderIcon />
-									</IconButton>
+								<TableCell
+									className={classes.iconCell}
+									onClick={() => {
+										setFavorite(!favorite);
+									}}
+								>
+									<SwitchFavoriteIcon favorite={favorite} />
 								</TableCell>
 							</TableRow>
 						))}

@@ -127,7 +127,8 @@ export const saveProduct = (
 	gender,
 	price,
 	images,
-	sizes
+	sizes,
+	favorite
 ) => {
 	return async (dispatch) => {
 		const timestamp = FirebaseTimestamp.now();
@@ -140,6 +141,7 @@ export const saveProduct = (
 			price: parseInt(price, 10),
 			sizes: sizes,
 			updated_at: timestamp,
+			favorite: favorite,
 		};
 
 		if (id === "") {
@@ -154,6 +156,34 @@ export const saveProduct = (
 			.set(data, { merge: true })
 			.then(() => {
 				dispatch(push("/"));
+			})
+			.catch((error) => {
+				throw new Error(error);
+			});
+	};
+};
+
+// test
+export const saveFavorite = (id, favorite) => {
+	return async (dispatch) => {
+		const timestamp = FirebaseTimestamp.now();
+		const data = {
+			updated_at: timestamp,
+			favorite: favorite,
+		};
+
+		if (id === "") {
+			const ref = productsRef.doc();
+			data.created_at = timestamp;
+			id = ref.id;
+			data.id = id;
+		}
+
+		return productsRef
+			.doc(id)
+			.set(data, { merge: true })
+			.then(() => {
+				console.log("update/favorite");
 			})
 			.catch((error) => {
 				throw new Error(error);

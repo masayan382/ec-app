@@ -78,6 +78,7 @@ const ProductDetail = () => {
 					productId: product.id,
 					quantity: 1,
 					size: selectedSize,
+					favorite: product.favorite,
 				})
 			);
 		},
@@ -97,7 +98,12 @@ const ProductDetail = () => {
 							{"￥" + product.price.toLocaleString()}
 						</p>
 						<div className='module-spacer--small' />
-						<SizeTable addProduct={addProduct} sizes={product.sizes} />
+						<SizeTable
+							addProduct={addProduct}
+							sizes={product.sizes}
+							id={product.id}
+							favorite={product.favorite}
+						/>
 						<div className='module-spacer--small' />
 						<p>{returnCodeToBr(product.description)}</p>
 					</div>
