@@ -7,8 +7,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles } from "@material-ui/styles";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { db } from "../../firebase/index";
-import { SwitchFavoriteIcon } from "./index";
+// import { db } from "../../firebase/index";
+// import { SwitchFavoriteIcon } from "./index";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const useStyles = makeStyles({
 	iconCell: {
@@ -24,21 +26,25 @@ const SizeTable = (props) => {
 	const id = props.id;
 
 	console.log("id:" + props.id);
-	console.log("favorite:" + props.favorite);
+	console.log("props.favorite:" + props.favorite);
 
 	const [favorite, setFavorite] = useState(props.favorite);
 
 	const dataF = favorite;
 
-	const changeFavorite = (id) => {
-		db.collection("products").doc(id).update({ favorite: dataF });
-	};
+	// const changeFavorite = (id) => {
+	// 	db.collection("products").doc(id).update({ favorite: dataF });
+	// };
 
-	useEffect(() => {
-		if (favorite !== setFavorite) {
-			changeFavorite(id);
-		}
-	}, [favorite]);
+	// useEffect(() => {
+	// 	//trueの時はadd
+	// 	if (setFavorite === true) {
+	// 		// changeFavorite(id);
+	// 		console.log("add");
+	// 	} else {
+	// 		console.log("remove");
+	// 	}
+	// }, [favorite]);
 
 	return (
 		<TableContainer>
@@ -60,14 +66,27 @@ const SizeTable = (props) => {
 										<div>売切</div>
 									)}
 								</TableCell>
-								<TableCell
-									className={classes.iconCell}
-									onClick={() => {
-										setFavorite(!favorite);
-										console.log("click:" + !favorite);
-									}}
-								>
-									<SwitchFavoriteIcon favorite={favorite} />
+								<TableCell className={classes.iconCell}>
+									{props.favorite === true ? (
+										<IconButton
+											onClick={() => {
+												setFavorite(!favorite);
+												console.log("remove");
+											}}
+										>
+											<FavoriteIcon color='error' />
+										</IconButton>
+									) : (
+										<IconButton
+											onClick={() => {
+												setFavorite(!favorite);
+												console.log("add");
+												props.addFavorite(size.size);
+											}}
+										>
+											<FavoriteBorderIcon />
+										</IconButton>
+									)}
 								</TableCell>
 							</TableRow>
 						))}

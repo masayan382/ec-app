@@ -62,7 +62,7 @@ const ProductDetail = () => {
 			.then((doc) => {
 				const data = doc.data();
 				setProduct(data);
-				console.log("products:" + data.favorite);
+				// console.log("初回products:" + data.favorite);
 			});
 	}, []);
 
@@ -102,7 +102,7 @@ const ProductDetail = () => {
 					productId: product.id,
 					quantity: 1,
 					size: selectedSize,
-					favorite: product.favorite,
+					favorite: true,
 				})
 			);
 		},
@@ -125,7 +125,6 @@ const ProductDetail = () => {
 						<SizeTable
 							addProduct={addProduct}
 							sizes={product.sizes}
-							size={product.size}
 							addFavorite={addFavorite}
 							id={product.id}
 							favorite={product.favorite}

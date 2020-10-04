@@ -27,9 +27,9 @@ export const addFavoriteToList = (addedFavorite) => {
 			.collection("favo")
 			.doc(addedFavorite.productId);
 		addedFavorite["favoId"] = favoRef.id;
-		// console.log("FB:" + addedFavorite.favorite);
+		console.log("FB's favorite:" + addedFavorite.favorite);
 		await favoRef.set(addedFavorite);
-		console.log("addFavoriteToList");
+		console.log("addFavoriteToList Done");
 	};
 };
 

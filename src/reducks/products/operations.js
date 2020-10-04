@@ -130,7 +130,8 @@ export const saveProduct = (
 	sizes,
 	favorite
 ) => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
+		const uid = getState().users.uid;
 		const timestamp = FirebaseTimestamp.now();
 		const data = {
 			category: category,
@@ -155,6 +156,12 @@ export const saveProduct = (
 			.doc(id)
 			.set(data, { merge: true })
 			.then(() => {
+				db.collection("users")
+					.doc(uid)
+					.collection("favo")
+					.doc(id)
+					.set(data, { merge: true })
+					.then(console.log("favoset"));
 				dispatch(push("/"));
 			})
 			.catch((error) => {
