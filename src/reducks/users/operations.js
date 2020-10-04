@@ -17,7 +17,7 @@ export const addProductToCart = (addedProduct) => {
 	};
 };
 
-export const addFavoriteToList = (addedFavorite) => {
+export const changeFavoriteState = (changedFavorite) => {
 	return async (dispatch, getState) => {
 		const uid = getState().users.uid;
 		console.log(uid);
@@ -25,11 +25,11 @@ export const addFavoriteToList = (addedFavorite) => {
 			.collection("users")
 			.doc(uid)
 			.collection("favo")
-			.doc(addedFavorite.productId);
-		addedFavorite["favoId"] = favoRef.id;
-		console.log("FB's favorite:" + addedFavorite.favorite);
-		await favoRef.set(addedFavorite);
-		console.log("addFavoriteToList Done");
+			.doc(changedFavorite.productId);
+		changedFavorite["favoId"] = favoRef.id;
+		console.log("FB's favorite:" + changedFavorite.favorite);
+		await favoRef.set(changedFavorite, { merge: true });
+		console.log("achangeFavoriteState Done");
 	};
 };
 

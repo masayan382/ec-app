@@ -81,7 +81,7 @@ const SizeTable = (props) => {
 											onClick={() => {
 												setFavorite(!favorite);
 												console.log("add");
-												props.addFavorite(size.size);
+												props.changeFavorite(size.size);
 											}}
 										>
 											<FavoriteBorderIcon />

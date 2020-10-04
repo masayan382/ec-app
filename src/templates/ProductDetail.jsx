@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import HTMLReactParser from "html-react-parser";
 import { ImageSwiper, SizeTable } from "../components/Products";
 import { addProductToCart } from "../reducks/users/operations";
-import { addFavoriteToList } from "../reducks/users/operations";
+import { changeFavoriteState } from "../reducks/users/operations";
 
 const useStyles = makeStyles((theme) => ({
 	sliderBox: {
@@ -87,27 +87,15 @@ const ProductDetail = () => {
 		[product]
 	);
 
-	//addfavorite
-	const addFavorite = useCallback(
-		(selectedSize) => {
-			const timestamp = FirebaseTimestamp.now();
-			dispatch(
-				addFavoriteToList({
-					added_at: timestamp,
-					description: product.description,
-					gender: product.gender,
-					images: product.images,
-					name: product.name,
-					price: product.price,
-					productId: product.id,
-					quantity: 1,
-					size: selectedSize,
-					favorite: true,
-				})
-			);
-		},
-		[product]
-	);
+	//achangefavorite
+	const changeFavorite = useCallback(() => {
+		dispatch(
+			changeFavoriteState({
+				productId: product.id,
+				favorite: true,
+			})
+		);
+	}, [product]);
 
 	return (
 		<section className='c-section-wrapin'>
@@ -125,7 +113,7 @@ const ProductDetail = () => {
 						<SizeTable
 							addProduct={addProduct}
 							sizes={product.sizes}
-							addFavorite={addFavorite}
+							changeFavorite={changeFavorite}
 							id={product.id}
 							favorite={product.favorite}
 						/>
