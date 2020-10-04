@@ -17,6 +17,32 @@ export const addProductToCart = (addedProduct) => {
 	};
 };
 
+export const addFavoriteToList = (addedFavorite) => {
+	return async (dispatch, getState) => {
+		const uid = getState().users.uid;
+		console.log(uid);
+		const favoRef = db
+			.collection("users")
+			.doc(uid)
+			.collection("favo")
+			.doc(addedFavorite.productId);
+		addedFavorite["favoId"] = favoRef.id;
+		// console.log("FB:" + addedFavorite.favorite);
+		await favoRef.set(addedFavorite);
+		console.log("addFavoriteToList");
+	};
+};
+
+export const deleteFavoriteToList = (id) => {
+	return async (dispatch, getState) => {
+		const uid = getState().users.uid;
+		console.log(id);
+		console.log(uid);
+		await db.collection("users").doc(uid).collection("favo").delete();
+		console.log("delete");
+	};
+};
+
 export const fetchOrdersHistory = () => {
 	return async (dispatch, getState) => {
 		const uid = getState().users.uid;

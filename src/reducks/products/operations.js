@@ -162,31 +162,3 @@ export const saveProduct = (
 			});
 	};
 };
-
-// test
-export const saveFavorite = (id, favorite) => {
-	return async (dispatch) => {
-		const timestamp = FirebaseTimestamp.now();
-		const data = {
-			updated_at: timestamp,
-			favorite: favorite,
-		};
-
-		if (id === "") {
-			const ref = productsRef.doc();
-			data.created_at = timestamp;
-			id = ref.id;
-			data.id = id;
-		}
-
-		return productsRef
-			.doc(id)
-			.set(data, { merge: true })
-			.then(() => {
-				console.log("update/favorite");
-			})
-			.catch((error) => {
-				throw new Error(error);
-			});
-	};
-};

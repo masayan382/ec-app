@@ -23,6 +23,9 @@ const SizeTable = (props) => {
 	const sizes = props.sizes;
 	const id = props.id;
 
+	console.log("id:" + props.id);
+	console.log("favorite:" + props.favorite);
+
 	const [favorite, setFavorite] = useState(props.favorite);
 
 	const dataF = favorite;
@@ -61,6 +64,7 @@ const SizeTable = (props) => {
 									className={classes.iconCell}
 									onClick={() => {
 										setFavorite(!favorite);
+										console.log("click:" + !favorite);
 									}}
 								>
 									<SwitchFavoriteIcon favorite={favorite} />
