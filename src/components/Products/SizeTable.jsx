@@ -25,7 +25,6 @@ const SizeTable = (props) => {
 	const sizes = props.sizes;
 	const id = props.id;
 
-	console.log("id:" + props.id);
 	console.log("props.favorite:" + props.favorite);
 
 	const [favorite, setFavorite] = useState(props.favorite);
@@ -82,6 +81,7 @@ const SizeTable = (props) => {
 												setFavorite(!favorite);
 												console.log("add");
 												props.changeFavorite(size.size);
+												props.setFavorite(true);
 											}}
 										>
 											<FavoriteBorderIcon />

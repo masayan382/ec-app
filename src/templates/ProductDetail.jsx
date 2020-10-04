@@ -6,6 +6,7 @@ import HTMLReactParser from "html-react-parser";
 import { ImageSwiper, SizeTable } from "../components/Products";
 import { addProductToCart } from "../reducks/users/operations";
 import { changeFavoriteState } from "../reducks/users/operations";
+import { getUserId } from "../reducks/users/selectors";
 
 const useStyles = makeStyles((theme) => ({
 	sliderBox: {
@@ -62,7 +63,6 @@ const ProductDetail = () => {
 			.then((doc) => {
 				const data = doc.data();
 				setProduct(data);
-				// console.log("初回products:" + data.favorite);
 			});
 	}, []);
 
@@ -88,6 +88,8 @@ const ProductDetail = () => {
 	);
 
 	//achangefavorite
+	const [favorite, setFavorite] = useState();
+
 	const changeFavorite = useCallback(() => {
 		dispatch(
 			changeFavoriteState({
@@ -97,6 +99,21 @@ const ProductDetail = () => {
 		);
 	}, [product]);
 
+	useEffect(() => {
+		const uid = getUserId(selector);
+		db.collection("users")
+			.doc(uid)
+			.collection("favo")
+			.doc(id)
+			.get()
+			.then((doc) => {
+				const data = doc.data();
+				const favoFavorite = data.favorite;
+				console.log("favoFavorite:" + favoFavorite);
+				setFavorite(favoFavorite);
+			});
+	}, []);
+	console.log("new-favorite:" + favorite);
 	return (
 		<section className='c-section-wrapin'>
 			{product && (
@@ -115,7 +132,8 @@ const ProductDetail = () => {
 							sizes={product.sizes}
 							changeFavorite={changeFavorite}
 							id={product.id}
-							favorite={product.favorite}
+							favorite={favorite}
+							setFavorite={setFavorite}
 						/>
 						<div className='module-spacer--small' />
 						<p>{returnCodeToBr(product.description)}</p>

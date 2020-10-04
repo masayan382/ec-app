@@ -20,7 +20,6 @@ export const addProductToCart = (addedProduct) => {
 export const changeFavoriteState = (changedFavorite) => {
 	return async (dispatch, getState) => {
 		const uid = getState().users.uid;
-		console.log(uid);
 		const favoRef = db
 			.collection("users")
 			.doc(uid)
