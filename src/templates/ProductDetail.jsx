@@ -7,6 +7,7 @@ import { ImageSwiper, SizeTable } from "../components/Products";
 import { addProductToCart } from "../reducks/users/operations";
 import { changeFavoriteState } from "../reducks/users/operations";
 import { getUserId } from "../reducks/users/selectors";
+import { addFavoriteToList } from "../reducks/products/operations";
 
 const useStyles = makeStyles((theme) => ({
 	sliderBox: {
@@ -77,43 +78,74 @@ const ProductDetail = () => {
 					images: product.images,
 					name: product.name,
 					price: product.price,
-					productId: product.id,
+					id: product.id,
 					quantity: 1,
 					size: selectedSize,
-					favorite: product.favorite,
+					favorite: favorite,
 				})
 			);
 		},
 		[product]
 	);
 
-	//achangefavorite
+	//addfavorite
 	const [favorite, setFavorite] = useState();
 
-	const changeFavorite = useCallback(() => {
-		dispatch(
-			changeFavoriteState({
-				productId: product.id,
-				favorite: true,
-			})
-		);
-	}, [product]);
+	const addFavorite = useCallback(
+		(selectedSize) => {
+			console.log("addFavorite開始");
+			console.log("id:" + id);
+			db.collection("products")
+				.doc(id)
+				.get()
+				.then((doc) => {
+					const data = doc.data();
+					console.log("productsdata:" + data);
+					console.dir(data);
+					dispatch(
+						addFavoriteToList({
+							description: data.description,
+							category: data.category,
+							gender: data.gender,
+							images: data.images,
+							name: data.name,
+							price: data.price,
+							id: data.id,
+							size: selectedSize,
+							favorite: !favorite,
+						})
+					);
+					console.log("addFavorites終了");
+				});
+		},
+		[favorite]
+	);
 
-	useEffect(() => {
-		const uid = getUserId(selector);
-		db.collection("users")
-			.doc(uid)
-			.collection("favo")
-			.doc(id)
-			.get()
-			.then((doc) => {
-				const data = doc.data();
-				const favoFavorite = data.favorite;
-				console.log("favoFavorite:" + favoFavorite);
-				setFavorite(favoFavorite);
-			});
-	}, []);
-	console.log("new-favorite:" + favorite);
+	// const changeFavorite = useCallback(() => {
+	// 	dispatch(
+	// 		changeFavoriteState({
+	// 			productId: product.id,
+	// 			favorite: true,
+	// 		})
+	// 	);
+	// }, [favorite]);
+
+	// useEffect(() => {
+	// 	const uid = getUserId(selector);
+	// 	db.collection("users")
+	// 		.doc(uid)
+	// 		.collection("favo")
+	// 		.doc(id)
+	// 		.get()
+	// 		.then((doc) => {
+	// 			const data = doc.data();
+	// 			const favoFavorite = data.favorite;
+	// 			console.log("favoFavorite:" + favoFavorite);
+	// 			setFavorite(favoFavorite);
+	// 		});
+	// }, []);
+	// console.log("new-favorite:" + favorite);
+
 	return (
 		<section className='c-section-wrapin'>
 			{product && (
@@ -130,7 +162,8 @@ const ProductDetail = () => {
 						<SizeTable
 							addProduct={addProduct}
 							sizes={product.sizes}
-							changeFavorite={changeFavorite}
+							// changeFavorite={changeFavorite}
+							addFavorite={addFavorite}
 							id={product.id}
 							favorite={favorite}
 							setFavorite={setFavorite}
