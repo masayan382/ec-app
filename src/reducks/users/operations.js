@@ -19,7 +19,9 @@ export const addProductToCart = (addedProduct) => {
 
 export const changeFavoriteState = (changedFavorite) => {
 	return async (getState) => {
+		console.log("changeFavoriteState開始");
 		const uid = getState().users.uid;
+		console.log("uid" + uid);
 		const favoRef = db
 			.collection("users")
 			.doc(uid)
@@ -33,10 +35,8 @@ export const changeFavoriteState = (changedFavorite) => {
 };
 
 export const deleteFavoriteToList = (id) => {
-	return async (dispatch, getState) => {
+	return async (getState) => {
 		const uid = getState().users.uid;
-		console.log(id);
-		console.log(uid);
 		await db.collection("users").doc(uid).collection("favo").delete();
 		console.log("delete");
 	};

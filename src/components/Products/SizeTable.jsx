@@ -69,11 +69,10 @@ const SizeTable = (props) => {
 									{props.favorite === true ? (
 										<IconButton
 											onClick={() => {
-                                                console.log("delete");
-                                                setFavorite(!props.favorite);
-                                                console.log("props.setFavoriteをfalseへ");
-                                                props.delteFavorite();
-												console.log('props.deleteFavorite()');
+												console.log("delete");
+												props.setFavorite(!props.favorite);
+												console.log("props.setFavoriteをfalseへ");
+												props.deleteFavorite();
 											}}
 										>
 											<FavoriteIcon color='error' />
@@ -85,9 +84,7 @@ const SizeTable = (props) => {
 												props.setFavorite(!props.favorite);
 												console.log("props.setFavoriteをtrueへ)");
 												props.addFavorite(size.size);
-                                                console.log("props.addFavorite");
-                                                props.changeFavorite();
-                                                console.log('props.changeFavorite()');
+												// props.changeFavorite();
 											}}
 										>
 											<FavoriteBorderIcon />

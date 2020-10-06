@@ -174,30 +174,30 @@ export const addFavoriteToList = (
 	price,
 	images,
 	sizes,
-	favorite
+	favorite,
+	created_at
 ) => {
-	return async (dispatch, getState) => {
+	return async (getState) => {
 		console.log("addFavoriteToList開始");
 		const uid = getState().users.uid;
 		const timestamp = FirebaseTimestamp.now();
 		const data = {
 			id: id,
-			category: category,
-			description: description,
-			gender: gender,
-			images: images,
 			name: name,
+			description: description,
+			category: category,
+			gender: gender,
 			price: parseInt(price, 10),
+			images: images,
 			sizes: sizes,
-			updated_at: timestamp,
 			favorite: favorite,
+			created_at: created_at,
+			updated_at: timestamp,
 		};
-		console.log(data.id.id);
-		console.log(data.id.category);
-		console.dir("data:" + data.id);
+		console.log("data:" + data);
 		const favoData = data.id;
-		console.log(favoData);
-
+		console.log("favoData:" + favoData);
+		console.log("addFavoriteToList後半");
 		return db
 			.collection("users")
 			.doc(uid)
@@ -205,6 +205,8 @@ export const addFavoriteToList = (
 			.doc(favoData.id)
 			.set(favoData, { merge: true })
 			.then(() => {
+				console.log(favoData);
+				console.dir(favoData);
 				console.log("favo終了");
 			})
 			.catch((error) => {

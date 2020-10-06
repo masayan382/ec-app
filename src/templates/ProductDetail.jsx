@@ -89,87 +89,83 @@ const ProductDetail = () => {
 	);
 
 	//addfavorite
-    const [favorite, setFavorite] = useState();
-    const selector = useSelector((state) => state);
+	const [favorite, setFavorite] = useState();
 	const uid = getUserId(selector);
 
-    useEffect(() => {
+	useEffect(() => {
 		db.collection("users")
-            .doc(uid)
-            .collection("favo")
-            .doc(id)
+			.doc(uid)
+			.collection("favo")
+			.doc(id)
 			.get()
 			.then((doc) => {
 				const data = doc.data();
 				const favoFavorite = data.favorite;
-                setFavorite(favoFavorite);
-                console.log('初回favoFavorite:' + favoFavorite);
-            })
-            .catch(() => {
-                db.collection("products").doc(id).get()
-                .then((doc) => {
-                    const data = doc.data();
-                    const productFavorite = data.favorite;
-                    setFavorite(productFavorite);
-                    console.log('初回productFavorite:' + productFavorite);
-                })
-			});
-	}, [favorite]);
-
-	const addFavorite = useCallback(
-		(selectedSize) => {
-			console.log("addFavorite開始");
-			console.log("id:" + id);
-			db.collection("products")
-				.doc(id)
-				.get()
-				.then((doc) => {
-					const data = doc.data();
-					console.log("productsdata:" + data);
-					console.dir(data);
-					dispatch(
-						addFavoriteToList({
-							description: data.description,
-							category: data.category,
-							gender: data.gender,
-							images: data.images,
-							name: data.name,
-							price: data.price,
-							id: data.id,
-							size: selectedSize,
-							favorite: !favorite,
-						})
-					);
-					console.log("addFavorites終了");
-				});
-		},
-		[]
-	);
-
-	const changeFavorite = useCallback(() => {
-        console.log('chageFavorite:'+ favorite);
-		dispatch(
-			changeFavoriteState({
-				id: id,
-				favorite: favorite,
+				setFavorite(favoFavorite);
+				console.log("初回favoFavorite:" + favoFavorite);
 			})
-		);
-    }, []);
-    
-    //deleteFavorite
-    const deleteFavorite = useCallback(()=>{
-        console.log("deleteFavorite開始");
-        db.collection("users")
-            .doc(uid)
-            .collection("favo")
-            .doc(id)
-            .delete()
-            .then(()=>{
-                console.log('delete成功');
-                setFavorite(false);
-            })
-    },[]);
+			.catch(() => {
+				db.collection("products")
+					.doc(id)
+					.get()
+					.then((doc) => {
+						const data = doc.data();
+						const productFavorite = data.favorite;
+						setFavorite(productFavorite);
+						console.log("初回productFavorite:" + productFavorite);
+					});
+			});
+	}, []);
 
+	const addFavorite = useCallback((selectedSize) => {
+		console.log("addFavorite開始");
+		console.log("id:" + id);
+		db.collection("products")
+			.doc(id)
+			.get()
+			.then(async (doc) => {
+				const data = doc.data();
+				dispatch(
+					addFavoriteToList({
+						id: data.id,
+						name: data.name,
+						description: data.description,
+						category: data.category,
+						gender: data.gender,
+						price: data.price,
+						images: data.images,
+						sizes: selectedSize,
+						favorite: true,
+						created_at: data.created_at,
+					})
+				);
+				console.log("addFavorites終了");
+			});
+	}, []);
+
+	// const changeFavorite = useCallback(() => {
+	// 	console.log("changeFavorite開始");
+	// 	dispatch(
+	// 		changeFavoriteState({
+	// 			id: id,
+	// 			favorite: true,
+	// 		})
+	// 	);
+	// }, []);
+
+	//deleteFavorite
+	const deleteFavorite = useCallback(() => {
+		console.log("deleteFavorite開始");
+		db.collection("users")
+			.doc(uid)
+			.collection("favo")
+			.doc(id)
+			.delete()
+			.then(() => {
+				console.log("delete成功");
+				setFavorite(false);
+			});
+	}, []);
 
 	return (
 		<section className='c-section-wrapin'>
@@ -187,12 +183,12 @@ const ProductDetail = () => {
 						<SizeTable
 							addProduct={addProduct}
 							sizes={product.sizes}
-							changeFavorite={changeFavorite}
+							// changeFavorite={changeFavorite}
 							addFavorite={addFavorite}
 							id={product.id}
 							favorite={favorite}
-                            setFavorite={setFavorite}
-                            deleteFavorite={deleteFavorite}
+							setFavorite={setFavorite}
+							deleteFavorite={deleteFavorite}
 						/>
 						<div className='module-spacer--small' />
 						<p>{returnCodeToBr(product.description)}</p>
