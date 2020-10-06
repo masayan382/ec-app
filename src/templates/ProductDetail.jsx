@@ -114,7 +114,7 @@ const ProductDetail = () => {
                     console.log('初回productFavorite:' + productFavorite);
                 })
 			});
-	}, []);
+	}, [favorite]);
 
 	const addFavorite = useCallback(
 		(selectedSize) => {
@@ -143,17 +143,33 @@ const ProductDetail = () => {
 					console.log("addFavorites終了");
 				});
 		},
-		[favorite]
+		[]
 	);
 
 	const changeFavorite = useCallback(() => {
+        console.log('chageFavorite:'+ favorite);
 		dispatch(
 			changeFavoriteState({
 				id: id,
-				favorite: true,
+				favorite: favorite,
 			})
 		);
-	}, []);
+    }, []);
+    
+    //deleteFavorite
+    const deleteFavorite = useCallback(()=>{
+        console.log("deleteFavorite開始");
+        db.collection("users")
+            .doc(uid)
+            .collection("favo")
+            .doc(id)
+            .delete()
+            .then(()=>{
+                console.log('delete成功');
+                setFavorite(false);
+            })
+    },[]);
+
 
 	return (
 		<section className='c-section-wrapin'>
@@ -175,7 +191,8 @@ const ProductDetail = () => {
 							addFavorite={addFavorite}
 							id={product.id}
 							favorite={favorite}
-							setFavorite={setFavorite}
+                            setFavorite={setFavorite}
+                            deleteFavorite={deleteFavorite}
 						/>
 						<div className='module-spacer--small' />
 						<p>{returnCodeToBr(product.description)}</p>
