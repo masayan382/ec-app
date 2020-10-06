@@ -89,7 +89,32 @@ const ProductDetail = () => {
 	);
 
 	//addfavorite
-	const [favorite, setFavorite] = useState();
+    const [favorite, setFavorite] = useState();
+    const selector = useSelector((state) => state);
+	const uid = getUserId(selector);
+
+    useEffect(() => {
+		db.collection("users")
+            .doc(uid)
+            .collection("favo")
+            .doc(id)
+			.get()
+			.then((doc) => {
+				const data = doc.data();
+				const favoFavorite = data.favorite;
+                setFavorite(favoFavorite);
+                console.log('初回favoFavorite:' + favoFavorite);
+            })
+            .catch(() => {
+                db.collection("products").doc(id).get()
+                .then((doc) => {
+                    const data = doc.data();
+                    const productFavorite = data.favorite;
+                    setFavorite(productFavorite);
+                    console.log('初回productFavorite:' + productFavorite);
+                })
+			});
+	}, []);
 
 	const addFavorite = useCallback(
 		(selectedSize) => {
@@ -121,30 +146,14 @@ const ProductDetail = () => {
 		[favorite]
 	);
 
-	// const changeFavorite = useCallback(() => {
-	// 	dispatch(
-	// 		changeFavoriteState({
-	// 			productId: product.id,
-	// 			favorite: true,
-	// 		})
-	// 	);
-	// }, [favorite]);
-
-	// useEffect(() => {
-	// 	const uid = getUserId(selector);
-	// 	db.collection("users")
-	// 		.doc(uid)
-	// 		.collection("favo")
-	// 		.doc(id)
-	// 		.get()
-	// 		.then((doc) => {
-	// 			const data = doc.data();
-	// 			const favoFavorite = data.favorite;
-	// 			console.log("favoFavorite:" + favoFavorite);
-	// 			setFavorite(favoFavorite);
-	// 		});
-	// }, []);
-	// console.log("new-favorite:" + favorite);
+	const changeFavorite = useCallback(() => {
+		dispatch(
+			changeFavoriteState({
+				id: id,
+				favorite: true,
+			})
+		);
+	}, []);
 
 	return (
 		<section className='c-section-wrapin'>
@@ -162,7 +171,7 @@ const ProductDetail = () => {
 						<SizeTable
 							addProduct={addProduct}
 							sizes={product.sizes}
-							// changeFavorite={changeFavorite}
+							changeFavorite={changeFavorite}
 							addFavorite={addFavorite}
 							id={product.id}
 							favorite={favorite}

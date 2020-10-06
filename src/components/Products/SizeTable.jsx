@@ -27,9 +27,9 @@ const SizeTable = (props) => {
 
 	console.log("props.favorite:" + props.favorite);
 
-	const [favorite, setFavorite] = useState(props.favorite);
+	// const [favorite, setFavorite] = useState(props.favorite);
 
-	const dataF = favorite;
+	// const dataF = favorite;
 
 	// const changeFavorite = (id) => {
 	// 	db.collection("products").doc(id).update({ favorite: dataF });
@@ -78,13 +78,13 @@ const SizeTable = (props) => {
 									) : (
 										<IconButton
 											onClick={() => {
-												// setFavorite(!favorite);
 												console.log("add");
-												// props.changeFavorite(size.size);
-												props.setFavorite(!false);
-												console.log("props.setFavorite(!false)");
+												props.setFavorite(!props.favorite);
+												console.log("props.setFavorite(false)");
 												props.addFavorite(size.size);
-												console.log("props.addFavorite");
+                                                console.log("props.addFavorite");
+                                                props.changeFavorite();
+                                                console.log('props.changeFavorite()');
 											}}
 										>
 											<FavoriteBorderIcon />

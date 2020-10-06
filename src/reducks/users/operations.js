@@ -18,17 +18,17 @@ export const addProductToCart = (addedProduct) => {
 };
 
 export const changeFavoriteState = (changedFavorite) => {
-	return async (dispatch, getState) => {
+	return async (getState) => {
 		const uid = getState().users.uid;
 		const favoRef = db
 			.collection("users")
 			.doc(uid)
 			.collection("favo")
-			.doc(changedFavorite.productId);
+			.doc(changedFavorite.id);
 		changedFavorite["favoId"] = favoRef.id;
 		console.log("FB's favorite:" + changedFavorite.favorite);
 		await favoRef.set(changedFavorite, { merge: true });
-		console.log("achangeFavoriteState Done");
+		console.log("changeFavoriteState Done");
 	};
 };
 
