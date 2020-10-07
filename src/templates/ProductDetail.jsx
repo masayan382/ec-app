@@ -102,7 +102,6 @@ const ProductDetail = () => {
 				const data = doc.data();
 				const favoFavorite = data.favorite;
 				setFavorite(favoFavorite);
-				console.log("初回favoFavorite:" + favoFavorite);
 			})
 			.catch(() => {
 				db.collection("products")
@@ -112,18 +111,16 @@ const ProductDetail = () => {
 						const data = doc.data();
 						const productFavorite = data.favorite;
 						setFavorite(productFavorite);
-						console.log("初回productFavorite:" + productFavorite);
 					});
 			});
 	}, []);
 
 	const addFavorite = useCallback((selectedSize) => {
 		console.log("addFavorite開始");
-		console.log("id:" + id);
 		db.collection("products")
 			.doc(id)
 			.get()
-			.then(async (doc) => {
+			.then((doc) => {
 				const data = doc.data();
 				dispatch(
 					addFavoriteToList({
@@ -143,19 +140,8 @@ const ProductDetail = () => {
 			});
 	}, []);
 
-	// const changeFavorite = useCallback(() => {
-	// 	console.log("changeFavorite開始");
-	// 	dispatch(
-	// 		changeFavoriteState({
-	// 			id: id,
-	// 			favorite: true,
-	// 		})
-	// 	);
-	// }, []);
-
 	//deleteFavorite
 	const deleteFavorite = useCallback(() => {
-		console.log("deleteFavorite開始");
 		db.collection("users")
 			.doc(uid)
 			.collection("favo")

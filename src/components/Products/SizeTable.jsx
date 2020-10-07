@@ -27,24 +27,6 @@ const SizeTable = (props) => {
 
 	console.log("props.favorite:" + props.favorite);
 
-	// const [favorite, setFavorite] = useState(props.favorite);
-
-	// const dataF = favorite;
-
-	// const changeFavorite = (id) => {
-	// 	db.collection("products").doc(id).update({ favorite: dataF });
-	// };
-
-	// useEffect(() => {
-	// 	//trueの時はadd
-	// 	if (setFavorite === true) {
-	// 		// changeFavorite(id);
-	// 		console.log("add");
-	// 	} else {
-	// 		console.log("remove");
-	// 	}
-	// }, [favorite]);
-
 	return (
 		<TableContainer>
 			<Table>
@@ -71,7 +53,6 @@ const SizeTable = (props) => {
 											onClick={() => {
 												console.log("delete");
 												props.setFavorite(!props.favorite);
-												console.log("props.setFavoriteをfalseへ");
 												props.deleteFavorite();
 											}}
 										>
@@ -82,9 +63,7 @@ const SizeTable = (props) => {
 											onClick={() => {
 												console.log("add");
 												props.setFavorite(!props.favorite);
-												console.log("props.setFavoriteをtrueへ)");
 												props.addFavorite(size.size);
-												// props.changeFavorite();
 											}}
 										>
 											<FavoriteBorderIcon />

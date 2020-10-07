@@ -165,52 +165,16 @@ export const saveProduct = (
 };
 
 //addFavorite
-export const addFavoriteToList = (
-	id,
-	name,
-	description,
-	category,
-	gender,
-	price,
-	images,
-	sizes,
-	favorite,
-	created_at
-) => {
-	return async (getState) => {
-		console.log("addFavoriteToList開始");
+export const addFavoriteToList = (addedFavorite) => {
+	return async (dispatch, getState) => {
 		const uid = getState().users.uid;
-		const timestamp = FirebaseTimestamp.now();
-		const data = {
-			id: id,
-			name: name,
-			description: description,
-			category: category,
-			gender: gender,
-			price: parseInt(price, 10),
-			images: images,
-			sizes: sizes,
-			favorite: favorite,
-			created_at: created_at,
-			updated_at: timestamp,
-		};
-		console.log("data:" + data);
-		const favoData = data.id;
-		console.log("favoData:" + favoData);
-		console.log("addFavoriteToList後半");
-		return db
+		const favoRef = db
 			.collection("users")
 			.doc(uid)
 			.collection("favo")
-			.doc(favoData.id)
-			.set(favoData, { merge: true })
-			.then(() => {
-				console.log(favoData);
-				console.dir(favoData);
-				console.log("favo終了");
-			})
-			.catch((error) => {
-				throw new Error(error);
-			});
+			.doc(addedFavorite.id);
+		addedFavorite["favoId"] = favoRef.id;
+		await favoRef.set(addedFavorite);
+		console.log("addedFavorite Done");
 	};
 };
