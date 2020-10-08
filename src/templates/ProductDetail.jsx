@@ -5,9 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import HTMLReactParser from "html-react-parser";
 import { ImageSwiper, SizeTable } from "../components/Products";
 import { addProductToCart } from "../reducks/users/operations";
-import { changeFavoriteState } from "../reducks/users/operations";
-import { getUserId } from "../reducks/users/selectors";
-import { addFavoriteToList } from "../reducks/products/operations";
+
 
 const useStyles = makeStyles((theme) => ({
 	sliderBox: {
@@ -88,71 +86,7 @@ const ProductDetail = () => {
 		[product]
 	);
 
-	//addfavorite
-	const [favorite, setFavorite] = useState();
-	const uid = getUserId(selector);
-
-	useEffect(() => {
-		db.collection("users")
-			.doc(uid)
-			.collection("favo")
-			.doc(id)
-			.get()
-			.then((doc) => {
-				const data = doc.data();
-				const favoFavorite = data.favorite;
-				setFavorite(favoFavorite);
-			})
-			.catch(() => {
-				db.collection("products")
-					.doc(id)
-					.get()
-					.then((doc) => {
-						const data = doc.data();
-						const productFavorite = data.favorite;
-						setFavorite(productFavorite);
-					});
-			});
-	}, []);
-
-	const addFavorite = useCallback((selectedSize) => {
-		console.log("addFavorite開始");
-		db.collection("products")
-			.doc(id)
-			.get()
-			.then((doc) => {
-				const data = doc.data();
-				dispatch(
-					addFavoriteToList({
-						id: data.id,
-						name: data.name,
-						description: data.description,
-						category: data.category,
-						gender: data.gender,
-						price: data.price,
-						images: data.images,
-						sizes: selectedSize,
-						favorite: true,
-						created_at: data.created_at,
-					})
-				);
-				console.log("addFavorites終了");
-			});
-	}, []);
-
-	//deleteFavorite
-	const deleteFavorite = useCallback(() => {
-		db.collection("users")
-			.doc(uid)
-			.collection("favo")
-			.doc(id)
-			.delete()
-			.then(() => {
-				console.log("delete成功");
-				setFavorite(false);
-			});
-	}, []);
-
+	
 	return (
 		<section className='c-section-wrapin'>
 			{product && (
@@ -169,12 +103,7 @@ const ProductDetail = () => {
 						<SizeTable
 							addProduct={addProduct}
 							sizes={product.sizes}
-							// changeFavorite={changeFavorite}
-							addFavorite={addFavorite}
 							id={product.id}
-							favorite={favorite}
-							setFavorite={setFavorite}
-							deleteFavorite={deleteFavorite}
 						/>
 						<div className='module-spacer--small' />
 						<p>{returnCodeToBr(product.description)}</p>

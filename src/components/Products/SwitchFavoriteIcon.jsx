@@ -5,13 +5,29 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const SwitchFavoriteIcon = (props) => {
 	return (
-		<IconButton>
-			{props.favorite === true ? (
-				<FavoriteIcon color='error' />
-			) : (
-				<FavoriteBorderIcon />
-			)}
-		</IconButton>
+        <>
+		{props.favorite === true ? (
+            <IconButton
+                onClick={() => {
+                    console.log("delete");
+                    props.setFavorite(!props.favorite);
+                    props.deleteFavorite();
+                }}
+            >
+                <FavoriteIcon color='error' />
+            </IconButton>
+        ) : (
+            <IconButton
+                onClick={() => {
+                    console.log("add");
+                    props.setFavorite(!props.favorite);
+                    props.addFavorite(props.size.size);
+                }}
+            >
+                <FavoriteBorderIcon />
+            </IconButton>
+        )}
+        </>
 	);
 };
 export default SwitchFavoriteIcon;
