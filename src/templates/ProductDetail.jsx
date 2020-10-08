@@ -5,7 +5,9 @@ import { makeStyles } from "@material-ui/styles";
 import HTMLReactParser from "html-react-parser";
 import { ImageSwiper, SizeTable } from "../components/Products";
 import { addProductToCart } from "../reducks/users/operations";
-
+import { SwitchFavoriteIcon } from "../components/Products";
+import { getUserId } from "../reducks/users/selectors";
+import { addFavoriteToList } from "../reducks/products/operations";
 
 const useStyles = makeStyles((theme) => ({
 	sliderBox: {
@@ -79,14 +81,75 @@ const ProductDetail = () => {
 					id: product.id,
 					quantity: 1,
 					size: selectedSize,
-					favorite: favorite,
+					// favorite: favorite,
 				})
 			);
 		},
 		[product]
 	);
 
-	
+	//addfavorite
+	const [favorite, setFavorite] = useState();
+	const uid = getUserId(selector);
+
+	useEffect(() => {
+		db.collection("users")
+			.doc(uid)
+			.collection("favo")
+			.doc(id)
+			.get()
+			.then((doc) => {
+				const data = doc.data();
+				const favoFavorite = data.favorite;
+				setFavorite(favoFavorite);
+			})
+			.catch(() => {
+				db.collection("products")
+					.doc(id)
+					.get()
+					.then((doc) => {
+						const data = doc.data();
+						const productFavorite = data.favorite;
+						setFavorite(productFavorite);
+					});
+			});
+	}, []);
+
+	const addFavorite = useCallback((selectedSize) => {
+		db.collection("products")
+			.doc(id)
+			.get()
+			.then((doc) => {
+				const data = doc.data();
+				dispatch(
+					addFavoriteToList({
+						id: data.id,
+						name: data.name,
+						description: data.description,
+						category: data.category,
+						gender: data.gender,
+						price: data.price,
+						images: data.images,
+						// sizes: selectedSize,
+						favorite: true,
+						created_at: data.created_at,
+					})
+				);
+			});
+	}, []);
+
+	//deleteFavorite
+	const deleteFavorite = useCallback(() => {
+		db.collection("users")
+			.doc(uid)
+			.collection("favo")
+			.doc(id)
+			.delete()
+			.then(() => {
+				setFavorite(false);
+			});
+	}, []);
+
 	return (
 		<section className='c-section-wrapin'>
 			{product && (
@@ -96,9 +159,17 @@ const ProductDetail = () => {
 					</div>
 					<div className={classes.detail}>
 						<h2 className='u-text__headline'>{product.name}</h2>
-						<p className={classes.price}>
-							{"￥" + product.price.toLocaleString()}
-						</p>
+						<div className='p-grid__flex'>
+							<p className={classes.price}>
+								{"￥" + product.price.toLocaleString()}
+							</p>
+							<SwitchFavoriteIcon
+								addFavorite={addFavorite}
+								favorite={favorite}
+								setFavorite={setFavorite}
+								deleteFavorite={deleteFavorite}
+							/>
+						</div>
 						<div className='module-spacer--small' />
 						<SizeTable
 							addProduct={addProduct}

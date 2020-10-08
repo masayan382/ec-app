@@ -175,6 +175,5 @@ export const addFavoriteToList = (addedFavorite) => {
 			.doc(addedFavorite.id);
 		addedFavorite["favoId"] = favoRef.id;
 		await favoRef.set(addedFavorite);
-		console.log("addedFavorite Done");
 	};
 };
