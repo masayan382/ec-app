@@ -56,8 +56,8 @@ const HeaderMenus = (props) => {
 				<Badge badgeContent={productsInCart.length} color='secondary'>
 					<ShoppingCartIcon />
 				</Badge>
-			</IconButton>
-			<IconButton>
+			</IconButton >
+			<IconButton onClick={() => dispatch(push("/favorite"))}>
 				<FavoriteBorderIcon />
 			</IconButton>
 			<IconButton onClick={(event) => props.handleDrawerToggle(event)}>
