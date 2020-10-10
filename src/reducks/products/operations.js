@@ -167,6 +167,9 @@ export const saveProduct = (
 //addFavorite
 export const addFavoriteToList = (addedFavorite) => {
 	return async (dispatch, getState) => {
+		console.log("addFavoriteToList開始");
+		console.log("addedFavorite:" + addedFavorite);
+		console.dir(addedFavorite);
 		const uid = getState().users.uid;
 		const favoRef = db
 			.collection("users")

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -11,6 +11,7 @@ import { db } from "../../firebase/index";
 import { SwitchFavoriteIcon } from "./index";
 import { getUserId } from "../../reducks/users/selectors";
 import { addFavoriteToList } from "../../reducks/products/operations";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles({
 	iconCell: {
@@ -22,11 +23,16 @@ const useStyles = makeStyles({
 
 const SizeTable = (props) => {
 	const classes = useStyles();
+	const dispatch = useDispatch();
+	const selector = useSelector((state) => state);
 	const sizes = props.sizes;
 	const id = props.id;
-    
-    //addfavorite
+
+	//addfavorite
 	const [favorite, setFavorite] = useState();
+	const [favoriteSize, setFavoriteSize] = useState("");
+	console.log("favoriteSize:" + favoriteSize);
+
 	const uid = getUserId(selector);
 
 	useEffect(() => {
@@ -38,7 +44,11 @@ const SizeTable = (props) => {
 			.then((doc) => {
 				const data = doc.data();
 				const favoFavorite = data.favorite;
+				const favoSize = data.size;
 				setFavorite(favoFavorite);
+				setFavoriteSize(favoSize);
+				console.log("favoSize:" + favoSize);
+				console.dir("favoSize:" + favoSize);
 			})
 			.catch(() => {
 				db.collection("products")
@@ -54,6 +64,7 @@ const SizeTable = (props) => {
 
 	const addFavorite = useCallback((selectedSize) => {
 		console.log("addFavorite開始");
+		console.log("favoriteSize:" + favoriteSize);
 		db.collection("products")
 			.doc(id)
 			.get()
@@ -90,7 +101,6 @@ const SizeTable = (props) => {
 			});
 	}, []);
 
-
 	return (
 		<TableContainer>
 			<Table>
@@ -112,12 +122,18 @@ const SizeTable = (props) => {
 									)}
 								</TableCell>
 								<TableCell className={classes.iconCell}>
-                                    <SwitchFavoriteIcon size={size.size}
-                                    addFavorite={addFavorite}
-                                    favorite={favorite}
-                                    setFavorite={setFavorite}
-                                    deleteFavorite={deleteFavorite}
-                                    />
+									<SwitchFavoriteIcon
+										addFavorite={addFavorite}
+										favorite={favorite}
+										setFavorite={setFavorite}
+										deleteFavorite={deleteFavorite}
+										setFavoriteSize={setFavoriteSize}
+										favoriteSize={favoriteSize}
+										size={size}
+										onClick={() => {
+											setFavoriteSize(size.size);
+										}}
+									/>
 								</TableCell>
 							</TableRow>
 						))}

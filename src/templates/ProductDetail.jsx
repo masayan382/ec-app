@@ -6,7 +6,6 @@ import HTMLReactParser from "html-react-parser";
 import { ImageSwiper, SizeTable } from "../components/Products";
 import { addProductToCart } from "../reducks/users/operations";
 
-
 const useStyles = makeStyles((theme) => ({
 	sliderBox: {
 		[theme.breakpoints.down("sm")]: {
@@ -79,14 +78,13 @@ const ProductDetail = () => {
 					id: product.id,
 					quantity: 1,
 					size: selectedSize,
-					favorite: favorite,
+					// favorite: favorite,
 				})
 			);
 		},
 		[product]
 	);
 
-	
 	return (
 		<section className='c-section-wrapin'>
 			{product && (
