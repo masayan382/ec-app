@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { useSelector } from "react-redux";
 import { getUserId } from "../../reducks/users/selectors";
 import { db } from "../../firebase/index";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -25,24 +26,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const FavoriteListItem  = (props) => {
+const FavoriteListItem = (props) => {
 	const classes = useStyles();
 	const selector = useSelector((state) => state);
 	const uid = getUserId(selector);
 	const image = props.favorite.images[0].path;
 	const name = props.favorite.name;
 	const price = props.favorite.price.toLocaleString();
-	const size = props.favorite.size;
+	// const size = props.favorite.size;
 
-    
-    const deleteFavorite = (id) =>{
-        return db.collection("users")
-			.doc(uid)
-			.collection("favo")
-			.doc(id)
-			.delete()
-    };
-
+	const deleteFavorite = (id) => {
+		return db.collection("users").doc(uid).collection("favo").doc(id).delete();
+	};
+	console.log("props.favoListLength:" + props.favoListLength);
 	return (
 		<>
 			<ListItem className={classes.list}>
@@ -50,11 +46,16 @@ const FavoriteListItem  = (props) => {
 					<img className={classes.image} src={image} alt='商品画像' />
 				</ListItemAvatar>
 				<div className={classes.text}>
-					<ListItemText primary={name} secondary={"サイズ：" + size} />
+					<ListItemText primary={name} />
 					<ListItemText primary={"¥" + price} />
 				</div>
-				<IconButton onClick={() => deleteFavorite(props.favorite.favoId)}>
-					<DeleteIcon />
+				<IconButton
+					onClick={() => {
+						deleteFavorite(props.favorite.favoId);
+						props.setFavoiteListLength(props.favoListLength - 1);
+					}}
+				>
+					<FavoriteIcon color='error' />
 				</IconButton>
 			</ListItem>
 			<Divider />
@@ -62,4 +63,4 @@ const FavoriteListItem  = (props) => {
 	);
 };
 
-export default FavoriteListItem ;
+export default FavoriteListItem;
