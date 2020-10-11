@@ -17,14 +17,14 @@ export const getProductsInCart = createSelector(
 	(state) => state.cart
 );
 
+export const getFavoriteInList = createSelector(
+	[usersSelector],
+	(state) => state.favorite
+);
+
 export const getUserId = createSelector([usersSelector], (state) => state.uid);
 
 export const getUserName = createSelector(
 	[usersSelector],
 	(state) => state.username
-);
-
-export const getFavoriteList = createSelector(
-	[usersSelector],
-	(state) => state.favorite
 );

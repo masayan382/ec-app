@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import List from "@material-ui/core/list";
-import { getFavoriteList } from "../reducks/users/selectors";
+import { getFavoriteInList } from "../reducks/users/selectors";
 import { FavoriteListItem } from "../components/Products";
 import { GreyButton, PrimaryButton } from "../components/UIkit";
 import { push } from "connected-react-router";
@@ -21,7 +21,9 @@ const FavoriteList = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const selector = useSelector((state) => state);
-	const favoriteList = getFavoriteList(selector);
+	const favoriteList = getFavoriteInList(selector);
+	console.log("favoriteList:" + favoriteList);
+	console.dir(favoriteList);
 	const uid = getUserId(selector);
 
 	const [favoProductId, setFavoProductId] = useState();
@@ -30,18 +32,18 @@ const FavoriteList = () => {
 	console.log("favoProductId:" + favoProductId);
 	console.dir("favoFavoList:" + favoFavoList);
 
-	useEffect(() => {
-		db.collection("users")
-			.doc(uid)
-			.collection("favo")
-			.get()
-			.then((doc) => {
-				const data = doc.data();
-				const favoProductId = data.id;
-				setFavoProductId(favoProductId);
-				setFavoList(data);
-			});
-	}, []);
+	// useEffect(() => {
+	// 	db.collection("users")
+	// 		.doc(uid)
+	// 		.collection("favo")
+	// 		.get()
+	// 		.then((doc) => {
+	// 			const data = doc.data();
+	// 			const favoProductId = data.id;
+	// 			setFavoProductId(favoProductId);
+	// 			setFavoList(data);
+	// 		});
+	// }, []);
 
 	const goToDetail = useCallback(() => {
 		dispatch(push("/product/:" + favoProductId));

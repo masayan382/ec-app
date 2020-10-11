@@ -14,6 +14,14 @@ export const fetchProductsInCartAction = (products) => {
 	};
 };
 
+export const FETCH_FAVORITE_IN_LIST = "FETCH_FAVORITE_IN_LIST";
+export const fetchFavoriteInListAction = (favorite) => {
+	return {
+		type: "FETCH_FAVORITE_IN_LIST",
+		payload: favorite,
+	};
+};
+
 export const SIGN_IN = "SIGN_IN";
 export const signInAction = (userState) => {
 	return {

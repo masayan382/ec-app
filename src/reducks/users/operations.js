@@ -1,6 +1,7 @@
 import {
 	fetchOrdersHistorytAction,
 	fetchProductsInCartAction,
+	fetchFavoriteInListAction,
 	signInAction,
 	signOutAction,
 } from "./actions";
@@ -48,6 +49,12 @@ export const fetchOrdersHistory = () => {
 export const fetchProductsInCart = (products) => {
 	return async (dispatch) => {
 		dispatch(fetchProductsInCartAction(products));
+	};
+};
+
+export const fetchFavoriteInList = (favorite) => {
+	return async (dispatch) => {
+		dispatch(fetchFavoriteInListAction(favorite));
 	};
 };
 
