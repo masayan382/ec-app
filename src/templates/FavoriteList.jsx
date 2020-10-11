@@ -1,12 +1,13 @@
-import React, {useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import List from "@material-ui/core/list";
-import { getProductsInCart } from "../reducks/users/selectors";
+import { getFavoriteList } from "../reducks/users/selectors";
 import { FavoriteListItem } from "../components/Products";
 import { GreyButton, PrimaryButton } from "../components/UIkit";
 import { push } from "connected-react-router";
 import { makeStyles } from "@material-ui/styles";
 import { getUserId } from "../reducks/users/selectors";
+import { db, FirebaseTimestamp } from "../firebase/index";
 
 const useStyles = makeStyles({
 	root: {
@@ -19,25 +20,31 @@ const useStyles = makeStyles({
 const FavoriteList = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	// const selector = useSelector((state) => state);
-    // const productsInCart = getProductsInCart(selector);
-    const [favorite, setFavorite] = useState();
-    const uid = getUserId(selector);
+	const selector = useSelector((state) => state);
+	const favoriteList = getFavoriteList(selector);
+	const uid = getUserId(selector);
 
-    useEffect(()=>{
-        db.collection("users")
+	const [favoProductId, setFavoProductId] = useState();
+	const [favoFavoList, setFavoList] = useState();
+
+	console.log("favoProductId:" + favoProductId);
+	console.dir("favoFavoList:" + favoFavoList);
+
+	useEffect(() => {
+		db.collection("users")
 			.doc(uid)
 			.collection("favo")
 			.get()
 			.then((doc) => {
 				const data = doc.data();
-				const favoFavorite = data.favorite;
-				setFavorite(favoFavorite);
-			})
-    },[])
+				const favoProductId = data.id;
+				setFavoProductId(favoProductId);
+				setFavoList(data);
+			});
+	}, []);
 
 	const goToDetail = useCallback(() => {
-		dispatch(push("/product/:"+favoFavorite.id));
+		dispatch(push("/product/:" + favoProductId));
 	}, []);
 
 	const backToHome = useCallback(() => {
@@ -47,12 +54,12 @@ const FavoriteList = () => {
 	return (
 		<section className='c-section-wrapin'>
 			<h2 className='u-text__headline'>お気に入り一覧</h2>
-			<List className={classes.root}>
-				{favorite.length > 0 &&
+			{/* <List className={classes.root}>
+				{favoriteList.length > 0 &&
 					FavoriteList.map((favorite) => (
-						<FavoriteListItem key={favorite.favoId} favorite={favorite}/>
+						<FavoriteListItem key={favorite.favoId} favorite={favorite} />
 					))}
-			</List>
+			</List> */}
 			<div className='module-spacer--medium' />
 			<div className='p-grid__column'>
 				<PrimaryButton label={"商品詳細ページへ"} onClick={goToDetail} />

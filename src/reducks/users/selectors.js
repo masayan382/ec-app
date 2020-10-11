@@ -23,3 +23,8 @@ export const getUserName = createSelector(
 	[usersSelector],
 	(state) => state.username
 );
+
+export const getFavoriteList = createSelector(
+	[usersSelector],
+	(state) => state.favorite
+);
