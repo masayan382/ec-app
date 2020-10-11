@@ -31,7 +31,6 @@ const SizeTable = (props) => {
 	//addfavorite
 	const [favorite, setFavorite] = useState();
 	const [favoriteSize, setFavoriteSize] = useState("");
-	console.log("favoriteSize:" + favoriteSize);
 
 	const uid = getUserId(selector);
 
@@ -43,12 +42,21 @@ const SizeTable = (props) => {
 			.get()
 			.then((doc) => {
 				const data = doc.data();
-				const favoFavorite = data.favorite;
-				const favoSize = data.size;
-				setFavorite(favoFavorite);
-				setFavoriteSize(favoSize);
-				console.log("favoSize:" + favoSize);
-				console.dir("favoSize:" + favoSize);
+				if (data !== "") {
+					const favoFavorite = data.favorite;
+					const favoSize = data.sizes;
+					setFavorite(favoFavorite);
+					setFavoriteSize(favoSize);
+				} else {
+					db.collection("products")
+						.doc(id)
+						.get()
+						.then((doc) => {
+							const data = doc.data();
+							const productFavorite = data.favorite;
+							setFavorite(productFavorite);
+						});
+				}
 			})
 			.catch(() => {
 				db.collection("products")

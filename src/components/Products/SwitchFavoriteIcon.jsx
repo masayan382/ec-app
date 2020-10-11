@@ -4,10 +4,12 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const SwitchFavoriteIcon = (props) => {
-	console.log("props.favoriteSize:" + props.favoriteSize);
+	// console.log("props.favorite:" + props.favorite);
+	// console.log("props.size.size:" + props.size.size);
+	// console.log("props.favoriteSize:" + props.favoriteSize);
 	return (
 		<>
-			{props.size === props.favoSize && props.favorite === true ? (
+			{props.size.size === props.favoriteSize && props.favorite === true ? (
 				<IconButton
 					onClick={() => {
 						console.log("delete");
@@ -23,6 +25,7 @@ const SwitchFavoriteIcon = (props) => {
 						console.log("add");
 						props.setFavorite(!props.favorite);
 						props.addFavorite(props.size.size);
+						props.setFavoriteSize(props.size.size);
 					}}
 				>
 					<FavoriteBorderIcon />

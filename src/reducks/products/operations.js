@@ -171,11 +171,7 @@ export const addFavoriteToList = (addedFavorite) => {
 		console.log("addedFavorite:" + addedFavorite);
 		console.dir(addedFavorite);
 		const uid = getState().users.uid;
-		const favoRef = db
-			.collection("users")
-			.doc(uid)
-			.collection("favo")
-			.doc(addedFavorite.id);
+		const favoRef = db.collection("users").doc(uid).collection("favo").doc();
 		addedFavorite["favoId"] = favoRef.id;
 		await favoRef.set(addedFavorite);
 		console.log("addedFavorite Done");
