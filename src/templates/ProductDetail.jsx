@@ -104,14 +104,15 @@ const ProductDetail = () => {
 				setFavorite(favoFavorite);
 			})
 			.catch(() => {
-				db.collection("products")
-					.doc(id)
-					.get()
-					.then((doc) => {
-						const data = doc.data();
-						const productFavorite = data.favorite;
-						setFavorite(productFavorite);
-					});
+				// db.collection("products")
+				// 	.doc(id)
+				// 	.get()
+				// 	.then((doc) => {
+				// 		const data = doc.data();
+				// 		const productFavorite = data.favorite;
+				// 		setFavorite(productFavorite);
+				// 	});
+				setFavorite(false);
 			});
 	}, []);
 
