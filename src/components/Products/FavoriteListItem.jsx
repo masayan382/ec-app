@@ -41,7 +41,9 @@ const FavoriteListItem = (props) => {
 	console.log("props.favoListLength:" + props.favoListLength);
 	return (
 		<>
-			<ListItem className={classes.list}>
+			<ListItem className={classes.list} onClick={()=>{
+                props.goToDetail(props.favorite.favoId);
+            }}>
 				<ListItemAvatar>
 					<img className={classes.image} src={image} alt='商品画像' />
 				</ListItemAvatar>
@@ -52,7 +54,7 @@ const FavoriteListItem = (props) => {
 				<IconButton
 					onClick={() => {
 						deleteFavorite(props.favorite.favoId);
-						props.setFavoiteListLength(props.favoListLength - 1);
+						props.favoriteNewList();
 					}}
 				>
 					<FavoriteIcon color='error' />

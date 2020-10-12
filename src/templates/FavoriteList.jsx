@@ -6,6 +6,7 @@ import { FavoriteListItem } from "../components/Products";
 import { GreyButton, PrimaryButton } from "../components/UIkit";
 import { push } from "connected-react-router";
 import { makeStyles } from "@material-ui/styles";
+import { db } from "../firebase";
 
 const useStyles = makeStyles({
 	root: {
@@ -19,18 +20,29 @@ const FavoriteList = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const selector = useSelector((state) => state);
-	const favoriteList = getFavoriteInList(selector);
+	let favoriteList = getFavoriteInList(selector);
 	const [favoListLength, setFavoiteListLength] = useState();
 
 	useEffect(() => {
 		const favoriteListLength = favoriteList.length;
 		console.log(favoriteListLength);
 		setFavoiteListLength(favoriteListLength);
-	}, [favoListLength]);
+    }, [favoriteList]);
+    
+    const favoriteNewList = useCallback(()=>{
+        db.collection("users").doc(uid).collection("favo").onSnapshot((snapshots)=>{
+            snapshots.docChanges().forEach((change) => {
+                const favoriteNewData = change.doc.data();
+                favoriteList.push(favoriteNewData);
+            });
+            dispatch(fetchFavoriteInList(favoriteList));
+        })
+    },[])
 
-	// const goToDetail = useCallback(() => {
-	// 	dispatch(push("/"));
-	// }, []);
+
+	const goToDetail = useCallback((id) => {
+		dispatch(push("/product/"+ id));
+	}, []);
 
 	const backToHome = useCallback(() => {
 		dispatch(push("/"));
@@ -46,7 +58,9 @@ const FavoriteList = () => {
 							key={favorite.favoId}
 							favorite={favorite}
 							setFavoiteListLength={setFavoiteListLength}
-							favoListLength={favoListLength}
+                            favoListLength={favoListLength}
+                            goToDetail={goToDetail}
+                            favoriteNewList={favoriteNewList}
 						/>
 					))}
 			</List>
