@@ -7,6 +7,8 @@ import { GreyButton, PrimaryButton } from "../components/UIkit";
 import { push } from "connected-react-router";
 import { makeStyles } from "@material-ui/styles";
 import { db } from "../firebase";
+import { getUserId } from "../reducks/users/selectors";
+import { fetchFavoriteInList } from "../reducks/users/operations";
 
 const useStyles = makeStyles({
 	root: {
@@ -20,28 +22,36 @@ const FavoriteList = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const selector = useSelector((state) => state);
+	const uid = getUserId(selector);
 	let favoriteList = getFavoriteInList(selector);
 	const [favoListLength, setFavoiteListLength] = useState();
+	let favoriteInList = getFavoriteInList(selector);
 
 	useEffect(() => {
 		const favoriteListLength = favoriteList.length;
 		console.log(favoriteListLength);
 		setFavoiteListLength(favoriteListLength);
-    }, [favoriteList]);
-    
-    const favoriteNewList = useCallback(()=>{
-        db.collection("users").doc(uid).collection("favo").onSnapshot((snapshots)=>{
-            snapshots.docChanges().forEach((change) => {
-                const favoriteNewData = change.doc.data();
-                favoriteList.push(favoriteNewData);
-            });
-            dispatch(fetchFavoriteInList(favoriteList));
-        })
-    },[])
+		console.log("FavoriteListのuseEffect");
+	}, []);
 
+	const favoriteNewList = useCallback(() => {
+		db.collection("users")
+			.doc(uid)
+			.collection("favo")
+			.onSnapshot((snapshots) => {
+				snapshots.docChanges().forEach((change) => {
+					const favoriteNewData = change.doc.data();
+					console.dir(favoriteNewData);
+					favoriteList.push(favoriteNewData);
+				});
+				dispatch(fetchFavoriteInList(favoriteList));
+				console.log("favoriteList:" + favoriteList);
+				console.dir(favoriteList);
+			});
+	}, []);
 
 	const goToDetail = useCallback((id) => {
-		dispatch(push("/product/"+ id));
+		dispatch(push("/product/" + id));
 	}, []);
 
 	const backToHome = useCallback(() => {
@@ -58,9 +68,9 @@ const FavoriteList = () => {
 							key={favorite.favoId}
 							favorite={favorite}
 							setFavoiteListLength={setFavoiteListLength}
-                            favoListLength={favoListLength}
-                            goToDetail={goToDetail}
-                            favoriteNewList={favoriteNewList}
+							favoListLength={favoListLength}
+							goToDetail={goToDetail}
+							favoriteNewList={favoriteNewList}
 						/>
 					))}
 			</List>

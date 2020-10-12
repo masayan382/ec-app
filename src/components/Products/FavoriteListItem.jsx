@@ -41,13 +41,20 @@ const FavoriteListItem = (props) => {
 	console.log("props.favoListLength:" + props.favoListLength);
 	return (
 		<>
-			<ListItem className={classes.list} onClick={()=>{
-                props.goToDetail(props.favorite.favoId);
-            }}>
-				<ListItemAvatar>
+			<ListItem className={classes.list}>
+				<ListItemAvatar
+					onClick={() => {
+						props.goToDetail(props.favorite.favoId);
+					}}
+				>
 					<img className={classes.image} src={image} alt='商品画像' />
 				</ListItemAvatar>
-				<div className={classes.text}>
+				<div
+					className={classes.text}
+					onClick={() => {
+						props.goToDetail(props.favorite.favoId);
+					}}
+				>
 					<ListItemText primary={name} />
 					<ListItemText primary={"¥" + price} />
 				</div>
@@ -55,6 +62,7 @@ const FavoriteListItem = (props) => {
 					onClick={() => {
 						deleteFavorite(props.favorite.favoId);
 						props.favoriteNewList();
+						console.log("props.favoriteNewList実行");
 					}}
 				>
 					<FavoriteIcon color='error' />
