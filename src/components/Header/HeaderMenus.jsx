@@ -57,7 +57,7 @@ const HeaderMenus = (props) => {
 	}, []);
 
 	useEffect(() => {
-		const unsubscribe = db
+		const unsubscribeFavo = db
 			.collection("users")
 			.doc(uid)
 			.collection("favo")
@@ -87,7 +87,7 @@ const HeaderMenus = (props) => {
 				});
 				dispatch(fetchFavoriteInList(favoriteInList));
 			});
-		return () => unsubscribe();
+		return () => unsubscribeFavo();
 	}, []);
 
 	return (

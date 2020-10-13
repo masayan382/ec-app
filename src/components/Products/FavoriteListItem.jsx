@@ -38,7 +38,7 @@ const FavoriteListItem = (props) => {
 	const deleteFavorite = (id) => {
 		return db.collection("users").doc(uid).collection("favo").doc(id).delete();
 	};
-	console.log("props.favoListLength:" + props.favoListLength);
+
 	return (
 		<>
 			<ListItem className={classes.list}>
@@ -61,7 +61,8 @@ const FavoriteListItem = (props) => {
 				<IconButton
 					onClick={() => {
 						deleteFavorite(props.favorite.favoId);
-						props.favoriteNewList();
+                        props.favoriteNewList();
+                        // props.setFavroriteList();
 						console.log("props.favoriteNewList実行");
 					}}
 				>

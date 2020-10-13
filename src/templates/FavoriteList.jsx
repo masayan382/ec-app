@@ -23,16 +23,25 @@ const FavoriteList = () => {
 	const dispatch = useDispatch();
 	const selector = useSelector((state) => state);
 	const uid = getUserId(selector);
-	let favoriteList = getFavoriteInList(selector);
-	const [favoListLength, setFavoiteListLength] = useState();
-	let favoriteInList = getFavoriteInList(selector);
+    // let favoriteList = getFavoriteInList(selector);
 
-	useEffect(() => {
-		const favoriteListLength = favoriteList.length;
-		console.log(favoriteListLength);
-		setFavoiteListLength(favoriteListLength);
-		console.log("FavoriteListのuseEffect");
-	}, []);
+    const [favoriteList, setFavroriteList] = useState(getFavoriteInList(selector));
+    
+	// useEffect(() => {
+	// 	db.collection("users")
+	// 		.doc(uid)
+	// 		.collection("favo")
+	// 		.onSnapshot((snapshots) => {
+	// 			snapshots.docChanges().forEach((change) => {
+	// 				const favoriteNewData = change.doc.data();
+	// 				console.dir(favoriteNewData);
+	// 				favoriteList.push(favoriteNewData);
+	// 			});
+	// 			dispatch(fetchFavoriteInList(favoriteList));
+	// 			console.log("favoriteList:" + favoriteList);
+	// 			console.dir(favoriteList);
+	// 		});
+	// }, [favoriteList]);
 
 	const favoriteNewList = useCallback(() => {
 		db.collection("users")
@@ -42,9 +51,10 @@ const FavoriteList = () => {
 				snapshots.docChanges().forEach((change) => {
 					const favoriteNewData = change.doc.data();
 					console.dir(favoriteNewData);
-					favoriteList.push(favoriteNewData);
+                    favoriteList.push(favoriteNewData);
 				});
-				dispatch(fetchFavoriteInList(favoriteList));
+                dispatch(fetchFavoriteInList(favoriteList));
+                setFavroriteList(favoriteList);
 				console.log("favoriteList:" + favoriteList);
 				console.dir(favoriteList);
 			});
@@ -67,8 +77,6 @@ const FavoriteList = () => {
 						<FavoriteListItem
 							key={favorite.favoId}
 							favorite={favorite}
-							setFavoiteListLength={setFavoiteListLength}
-							favoListLength={favoListLength}
 							goToDetail={goToDetail}
 							favoriteNewList={favoriteNewList}
 						/>
