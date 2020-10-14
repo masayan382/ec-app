@@ -33,7 +33,6 @@ const FavoriteListItem = (props) => {
 	const image = props.favorite.images[0].path;
 	const name = props.favorite.name;
 	const price = props.favorite.price.toLocaleString();
-	// const size = props.favorite.size;
 
 	const deleteFavorite = (id) => {
 		return db.collection("users").doc(uid).collection("favo").doc(id).delete();
@@ -61,8 +60,6 @@ const FavoriteListItem = (props) => {
 				<IconButton
 					onClick={() => {
 						deleteFavorite(props.favorite.favoId);
-                        props.favoriteNewList();
-						console.log("props.favoriteNewList実行");
 					}}
 				>
 					<FavoriteIcon color='error' />

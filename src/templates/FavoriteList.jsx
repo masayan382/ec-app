@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import List from "@material-ui/core/list";
 import { getFavoriteInList } from "../reducks/users/selectors";
@@ -8,7 +8,7 @@ import { push } from "connected-react-router";
 import { makeStyles } from "@material-ui/styles";
 import { db } from "../firebase";
 import { getUserId } from "../reducks/users/selectors";
-import { fetchFavoriteInList } from "../reducks/users/operations";
+
 
 const useStyles = makeStyles({
 	root: {
@@ -23,42 +23,7 @@ const FavoriteList = () => {
 	const dispatch = useDispatch();
 	const selector = useSelector((state) => state);
 	const uid = getUserId(selector);
-    // let favoriteList = getFavoriteInList(selector);
-
-    const [favoriteList, setFavroriteList] = useState(getFavoriteInList(selector));
-    
-	// useEffect(() => {
-	// 	db.collection("users")
-	// 		.doc(uid)
-	// 		.collection("favo")
-	// 		.onSnapshot((snapshots) => {
-	// 			snapshots.docChanges().forEach((change) => {
-	// 				const favoriteNewData = change.doc.data();
-	// 				console.dir(favoriteNewData);
-	// 				favoriteList.push(favoriteNewData);
-	// 			});
-	// 			dispatch(fetchFavoriteInList(favoriteList));
-	// 			console.log("favoriteList:" + favoriteList);
-	// 			console.dir(favoriteList);
-	// 		});
-	// }, [favoriteList]);
-
-	const favoriteNewList = useCallback(() => {
-		db.collection("users")
-			.doc(uid)
-			.collection("favo")
-			.onSnapshot((snapshots) => {
-				snapshots.docChanges().forEach((change) => {
-					const favoriteNewData = change.doc.data();
-					console.dir(favoriteNewData);
-                    favoriteList.push(favoriteNewData);
-				});
-                dispatch(fetchFavoriteInList(favoriteList));
-                setFavroriteList(favoriteList);
-				console.log("favoriteList:" + favoriteList);
-				console.dir(favoriteList);
-			});
-	}, []);
+  const favoList = getFavoriteInList(selector);
 
 	const goToDetail = useCallback((id) => {
 		dispatch(push("/product/" + id));
@@ -72,13 +37,12 @@ const FavoriteList = () => {
 		<section className='c-section-wrapin'>
 			<h2 className='u-text__headline'>お気に入り一覧</h2>
 			<List className={classes.root}>
-				{favoriteList.length > 0 &&
-					favoriteList.map((favorite) => (
+				{favoList.length > 0 &&
+					favoList.map((favorite) => (
 						<FavoriteListItem
 							key={favorite.favoId}
 							favorite={favorite}
 							goToDetail={goToDetail}
-							favoriteNewList={favoriteNewList}
 						/>
 					))}
 			</List>
