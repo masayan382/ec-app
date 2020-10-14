@@ -4,11 +4,7 @@ import Badge from "@material-ui/core/Badge";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import MenuIcon from "@material-ui/icons/Menu";
-import {
-	getProductsInCart,
-	getFavoriteInList,
-	getUserId,
-} from "../../reducks/users/selectors";
+import { getProductsInCart,getFavoriteInList,getUserId } from "../../reducks/users/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../firebase/index";
 import { fetchProductsInCart } from "../../reducks/users/operations";

@@ -88,7 +88,7 @@ const ProductDetail = () => {
 		[product]
 	);
 
-	//addfavorite
+		//addfavorite
 	const [favorite, setFavorite] = useState();
 	const uid = getUserId(selector);
 
@@ -104,19 +104,11 @@ const ProductDetail = () => {
 				setFavorite(favoFavorite);
 			})
 			.catch(() => {
-				// db.collection("products")
-				// 	.doc(id)
-				// 	.get()
-				// 	.then((doc) => {
-				// 		const data = doc.data();
-				// 		const productFavorite = data.favorite;
-				// 		setFavorite(productFavorite);
-				// 	});
 				setFavorite(false);
 			});
 	}, []);
 
-	const addFavorite = useCallback((selectedSize) => {
+const addFavorite = useCallback((selectedSize) => {
 		db.collection("products")
 			.doc(id)
 			.get()
@@ -160,7 +152,7 @@ const ProductDetail = () => {
 					</div>
 					<div className={classes.detail}>
 						<h2 className='u-text__headline'>{product.name}</h2>
-						<div className='p-grid__flex'>
+					<div className='p-grid__flex'>
 							<p className={classes.price}>
 								{"￥" + product.price.toLocaleString()}
 							</p>

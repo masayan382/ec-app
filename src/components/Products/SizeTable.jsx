@@ -7,10 +7,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles } from "@material-ui/styles";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { db } from "../../firebase/index";
-import { SwitchFavoriteIcon } from "./index";
-import { getUserId } from "../../reducks/users/selectors";
-import { addFavoriteToList } from "../../reducks/products/operations";
 import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles({
@@ -27,71 +23,6 @@ const SizeTable = (props) => {
 	const selector = useSelector((state) => state);
 	const sizes = props.sizes;
 	const id = props.id;
-
-	// //addfavorite
-	// const [favorite, setFavorite] = useState();
-	// const uid = getUserId(selector);
-
-	// useEffect(() => {
-	// 	db.collection("users")
-	// 		.doc(uid)
-	// 		.collection("favo")
-	// 		.doc(id)
-	// 		.get()
-	// 		.then((doc) => {
-	// 			const data = doc.data();
-	// 			const favoFavorite = data.favorite;
-	// 			setFavorite(favoFavorite);
-	// 		})
-	// 		.catch(() => {
-	// 			db.collection("products")
-	// 				.doc(id)
-	// 				.get()
-	// 				.then((doc) => {
-	// 					const data = doc.data();
-	// 					const productFavorite = data.favorite;
-	// 					setFavorite(productFavorite);
-	// 				});
-	// 		});
-	// }, []);
-
-	// const addFavorite = useCallback((selectedSize) => {
-	// 	console.log("addFavorite開始");
-	// 	db.collection("products")
-	// 		.doc(id)
-	// 		.get()
-	// 		.then((doc) => {
-	// 			const data = doc.data();
-	// 			dispatch(
-	// 				addFavoriteToList({
-	// 					id: data.id,
-	// 					name: data.name,
-	// 					description: data.description,
-	// 					category: data.category,
-	// 					gender: data.gender,
-	// 					price: data.price,
-	// 					images: data.images,
-	// 					sizes: selectedSize,
-	// 					favorite: true,
-	// 					created_at: data.created_at,
-	// 				})
-	// 			);
-	// 			console.log("addFavorites終了");
-	// 		});
-	// }, []);
-
-	// //deleteFavorite
-	// const deleteFavorite = useCallback(() => {
-	// 	db.collection("users")
-	// 		.doc(uid)
-	// 		.collection("favo")
-	// 		.doc(id)
-	// 		.delete()
-	// 		.then(() => {
-	// 			console.log("delete成功");
-	// 			setFavorite(false);
-	// 		});
-	// }, []);
 
 	return (
 		<TableContainer>
@@ -113,14 +44,9 @@ const SizeTable = (props) => {
 										<div>売切</div>
 									)}
 								</TableCell>
-								<TableCell className={classes.iconCell}>
-									{/* <SwitchFavoriteIcon
-										size={size.size}
-										addFavorite={addFavorite}
-										favorite={favorite}
-										setFavorite={setFavorite}
-										deleteFavorite={deleteFavorite}
-									/> */}
+								<TableCell
+									className={classes.iconCell}
+								>
 								</TableCell>
 							</TableRow>
 						))}

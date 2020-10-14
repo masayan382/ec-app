@@ -127,8 +127,7 @@ export const saveProduct = (
 	gender,
 	price,
 	images,
-	sizes,
-	favorite
+	sizes
 ) => {
 	return async (dispatch, getState) => {
 		const uid = getState().users.uid;
@@ -142,7 +141,6 @@ export const saveProduct = (
 			price: parseInt(price, 10),
 			sizes: sizes,
 			updated_at: timestamp,
-			// favorite: favorite,
 		};
 
 		if (id === "") {
@@ -164,7 +162,6 @@ export const saveProduct = (
 	};
 };
 
-//addFavorite
 export const addFavoriteToList = (addedFavorite) => {
 	return async (dispatch, getState) => {
 		const uid = getState().users.uid;
