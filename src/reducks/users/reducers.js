@@ -13,6 +13,11 @@ export const UsersReducer = (state = initialState.users, action) => {
 				...state,
 				cart: [...action.payload],
 			};
+		case Actions.FETCH_FAVORITE_IN_LIST:
+			return {
+				...state,
+				cart: [...action.payload],
+			};
 		case Actions.SIGN_IN:
 			return {
 				...state,

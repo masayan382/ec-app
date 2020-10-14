@@ -62,7 +62,6 @@ const FavoriteListItem = (props) => {
 					onClick={() => {
 						deleteFavorite(props.favorite.favoId);
                         props.favoriteNewList();
-                        // props.setFavroriteList();
 						console.log("props.favoriteNewList実行");
 					}}
 				>
