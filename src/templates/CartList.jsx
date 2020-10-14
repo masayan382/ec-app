@@ -20,7 +20,6 @@ const CartList = () => {
 	const dispatch = useDispatch();
 	const selector = useSelector((state) => state);
 	const productsInCart = getProductsInCart(selector);
-	console.dir(productsInCart);
 
 	const goToOrder = useCallback(() => {
 		dispatch(push("/order/confirm"));

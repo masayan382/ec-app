@@ -20,8 +20,8 @@ const ProductEdit = () => {
 		[gender, setGender] = useState(""),
 		[images, setImages] = useState([]),
 		[price, setPrice] = useState(""),
-		[sizes, setSizes] = useState([]),
-		[favorite, setFavorite] = useState(false);
+		[sizes, setSizes] = useState([]);
+		// [favorite, setFavorite] = useState(false);
 
 	const inputName = useCallback(
 		(event) => {
@@ -64,7 +64,7 @@ const ProductEdit = () => {
 					setGender(product.gender);
 					setPrice(product.price);
 					setSizes(product.sizes);
-					setFavorite(product.favorite);
+					// setFavorite(product.favorite);
 				});
 		}
 	}, [id]);
@@ -156,7 +156,7 @@ const ProductEdit = () => {
 									price,
 									images,
 									sizes,
-									favorite
+									// favorite
 								)
 							);
 						}}

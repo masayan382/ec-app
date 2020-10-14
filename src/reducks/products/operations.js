@@ -142,7 +142,7 @@ export const saveProduct = (
 			price: parseInt(price, 10),
 			sizes: sizes,
 			updated_at: timestamp,
-			favorite: favorite,
+			// favorite: favorite,
 		};
 
 		if (id === "") {
