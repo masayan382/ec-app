@@ -76,6 +76,15 @@ body {
 	flex-flow: row wrap;
 }
 
+.p-grid__flex > p {
+	padding-top: 15px;
+}
+.p-grid__flex {
+	display: flex;
+	justify-content: space-between;
+	vertical-align: top;
+}
+
 .p-grid__list-images {
 	display: flex;
 	flex-flow: wrap;

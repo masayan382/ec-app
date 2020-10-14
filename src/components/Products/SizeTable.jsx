@@ -7,8 +7,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles } from "@material-ui/styles";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { db } from "../../firebase/index";
-import { SwitchFavoriteIcon } from "./index";
 
 const useStyles = makeStyles({
 	iconCell: {
@@ -22,20 +20,6 @@ const SizeTable = (props) => {
 	const classes = useStyles();
 	const sizes = props.sizes;
 	const id = props.id;
-
-	const [favorite, setFavorite] = useState(props.favorite);
-
-	const dataF = favorite;
-
-	const changeFavorite = (id) => {
-		db.collection("products").doc(id).update({ favorite: dataF });
-	};
-
-	useEffect(() => {
-		if (favorite !== setFavorite) {
-			changeFavorite(id);
-		}
-	}, [favorite]);
 
 	return (
 		<TableContainer>
@@ -59,11 +43,7 @@ const SizeTable = (props) => {
 								</TableCell>
 								<TableCell
 									className={classes.iconCell}
-									onClick={() => {
-										setFavorite(!favorite);
-									}}
 								>
-									<SwitchFavoriteIcon favorite={favorite} />
 								</TableCell>
 							</TableRow>
 						))}

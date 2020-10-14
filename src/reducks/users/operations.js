@@ -1,6 +1,7 @@
 import {
 	fetchOrdersHistorytAction,
 	fetchProductsInCartAction,
+	fetchFavoriteInListAction,
 	signInAction,
 	signOutAction,
 } from "./actions";
@@ -14,6 +15,14 @@ export const addProductToCart = (addedProduct) => {
 		addedProduct["cartId"] = cartRef.id;
 		await cartRef.set(addedProduct);
 		dispatch(push("/"));
+	};
+};
+
+export const deleteFavoriteToList = (id) => {
+	return async (getState) => {
+		const uid = getState().users.uid;
+		await db.collection("users").doc(uid).collection("favo").delete();
+		console.log("delete");
 	};
 };
 
@@ -40,6 +49,12 @@ export const fetchOrdersHistory = () => {
 export const fetchProductsInCart = (products) => {
 	return async (dispatch) => {
 		dispatch(fetchProductsInCartAction(products));
+	};
+};
+
+export const fetchFavoriteInList = (favorite) => {
+	return async (dispatch) => {
+		dispatch(fetchFavoriteInListAction(favorite));
 	};
 };
 
