@@ -14,7 +14,7 @@ const Footer = () => {
                     <li>プライバシーポリシー</li>
                 </a>
                 <a className="u-text__link-none">
-                    <li>Copyright &copy; 2019 T・M
+                    <li>Copyright &copy; 2019 MONOQLO
                     </li>
                 </a>
             </ul>
