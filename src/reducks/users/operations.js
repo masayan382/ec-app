@@ -140,19 +140,24 @@ export const signIn = (email, password) => {
 export const signUp = (username, email, password, confirmPassword) => {
 	return async (dispatch) => {
 		//validation
-		if (
-			username === "" ||
-			email === "" ||
-			password === "" ||
-			confirmPassword === ""
-		) {
-			alert("必須項目が未入力です。");
-			return false;
-		}
-		if (password !== confirmPassword) {
-			alert("パスワードが一致しません。もう一度お試し下さい。");
-			return false;
-		}
+        if(!isValidRequiredInput(email, password, confirmPassword)) {
+            alert('必須項目が未入力です。');
+            return false
+        }
+
+        if(!isValidEmailFormat(email)) {
+            alert('メールアドレスの形式が不正です。もう1度お試しください。')
+            return false
+        }
+        if (password !== confirmPassword) {
+            alert('パスワードが一致しません。もう1度お試しください。')
+            return false
+        }
+        if (password.length < 6) {
+            alert('パスワードは6文字以上で入力してください。')
+            return false
+        }
+
 		return auth
 			.createUserWithEmailAndPassword(email, password)
 			.then((result) => {
@@ -177,7 +182,11 @@ export const signUp = (username, email, password, confirmPassword) => {
 							dispatch(push("/"));
 						});
 				}
-			});
+			}).catch((error) => {
+                dispatch(hideLoadingAction())
+                alert('アカウント登録に失敗しました。もう1度お試しください。')
+                throw new Error(error)
+            });
 	};
 };
 
