@@ -81,7 +81,7 @@ const ProductDetail = () => {
 					productId: product.id,
 					quantity: 1,
 					size: selectedSize,
-					favorite: product.favorite,
+					// favorite: product.favorite,
 				})
 			);
 		},
