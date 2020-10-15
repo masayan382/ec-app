@@ -119,6 +119,10 @@ body {
 }
 
 /*********** Footer ***********/
+footer {
+	padding: 10px 0;
+	background-color: #444;
+}
 .l-footer {
 	display: flex;
 	flex-flow: row wrap;
@@ -128,7 +132,8 @@ body {
 
 .l-footer > a {
 	margin-right: 1rem;
-	color: #444;
+	/* color: #444; */
+	color: #fff;
 	font-size: 0.9rem;
 }
 

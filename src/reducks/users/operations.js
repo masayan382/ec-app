@@ -7,6 +7,11 @@ import {
 } from "./actions";
 import { push } from "connected-react-router";
 import { auth, db, FirebaseTimestamp } from "../../firebase/index";
+import {
+	isValidEmailFormat,
+	isValidRequiredInput,
+} from "../../function/common";
+import { initProductsAction } from "../products/actions";
 
 export const addProductToCart = (addedProduct) => {
 	return async (dispatch, getState) => {
@@ -140,23 +145,23 @@ export const signIn = (email, password) => {
 export const signUp = (username, email, password, confirmPassword) => {
 	return async (dispatch) => {
 		//validation
-        if(!isValidRequiredInput(email, password, confirmPassword)) {
-            alert('必須項目が未入力です。');
-            return false
-        }
+		if (!isValidRequiredInput(email, password, confirmPassword)) {
+			alert("必須項目が未入力です。");
+			return false;
+		}
 
-        if(!isValidEmailFormat(email)) {
-            alert('メールアドレスの形式が不正です。もう1度お試しください。')
-            return false
-        }
-        if (password !== confirmPassword) {
-            alert('パスワードが一致しません。もう1度お試しください。')
-            return false
-        }
-        if (password.length < 6) {
-            alert('パスワードは6文字以上で入力してください。')
-            return false
-        }
+		if (!isValidEmailFormat(email)) {
+			alert("メールアドレスの形式が不正です。もう1度お試しください。");
+			return false;
+		}
+		if (password !== confirmPassword) {
+			alert("パスワードが一致しません。もう1度お試しください。");
+			return false;
+		}
+		if (password.length < 6) {
+			alert("パスワードは6文字以上で入力してください。");
+			return false;
+		}
 
 		return auth
 			.createUserWithEmailAndPassword(email, password)
@@ -182,11 +187,12 @@ export const signUp = (username, email, password, confirmPassword) => {
 							dispatch(push("/"));
 						});
 				}
-			}).catch((error) => {
-                dispatch(hideLoadingAction())
-                alert('アカウント登録に失敗しました。もう1度お試しください。')
-                throw new Error(error)
-            });
+			})
+			.catch((error) => {
+				// dispatch(hideLoadingAction());
+				alert("アカウント登録に失敗しました。もう1度お試しください。");
+				throw new Error(error);
+			});
 	};
 };
 
