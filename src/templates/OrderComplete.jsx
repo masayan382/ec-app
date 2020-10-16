@@ -5,7 +5,6 @@ import {push} from "connected-react-router"
 
 const OrderComplete = () => {
     const dispatch = useDispatch()
-
     const goBackToTop = useCallback(() => {
         dispatch(push('/'))
     }, [])
