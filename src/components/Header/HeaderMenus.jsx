@@ -94,7 +94,9 @@ const HeaderMenus = (props) => {
 				</Badge>
 			</IconButton>
 			<IconButton onClick={() => dispatch(push("/favorite"))}>
-				<FavoriteBorderIcon />
+                <Badge badgeContent={favoriteInList.length} color='error'>
+                    <FavoriteBorderIcon />
+                </Badge>
 			</IconButton>
 			<IconButton onClick={(event) => props.handleDrawerToggle(event)}>
 				<MenuIcon />
