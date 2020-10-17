@@ -9,8 +9,7 @@ export const initialState = {
 		orders: [],
 		role: "",
 		uid: "",
-        username: "",
-        email: "",
+		username: "",
 	},
 };
 
