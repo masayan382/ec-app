@@ -8,8 +8,11 @@ import { MuiThemeProvider } from "@material-ui/core";
 import { theme } from "./assets/theme";
 import * as serviceWorker from "./serviceWorker";
 import App from "./App";
+import createBrowserHistory from "history/createBrowserHistory";
 
-const history = History.createBrowserHistory();
+// const history = History.createBrowserHistory();
+const history = createBrowserHistory({ basename: "/monoqlo" });
+
 export const store = createStore(history);
 
 ReactDOM.render(

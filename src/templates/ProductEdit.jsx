@@ -20,7 +20,8 @@ const ProductEdit = () => {
 		[gender, setGender] = useState(""),
 		[images, setImages] = useState([]),
 		[price, setPrice] = useState(""),
-		[sizes, setSizes] = useState([]);
+		[sizes, setSizes] = useState([]),
+		[favorite, setFavorite] = useState(false);
 
 	const inputName = useCallback(
 		(event) => {
@@ -63,6 +64,7 @@ const ProductEdit = () => {
 					setGender(product.gender);
 					setPrice(product.price);
 					setSizes(product.sizes);
+					setFavorite(product.favorite);
 				});
 		}
 	}, [id]);
@@ -87,7 +89,7 @@ const ProductEdit = () => {
 	return (
 		<section>
 			<h2 className='u-text__headline u-text-center'>商品の登録・編集</h2>
-			<div class='c-section-container'>
+			<div className='c-section-container'>
 				<ImageArea images={images} setImages={setImages} />
 				<TextInput
 					fullWidth={true}
@@ -153,7 +155,8 @@ const ProductEdit = () => {
 									gender,
 									price,
 									images,
-									sizes
+									sizes,
+									favorite
 								)
 							)
 						}

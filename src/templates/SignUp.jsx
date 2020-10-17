@@ -68,7 +68,7 @@ const SignUp = () => {
 
 			<TextInput
 				fullWidth={true}
-				label={"パスワード"}
+				label={"パスワード（半角英数字で6文字以上）"}
 				multiline={false}
 				required={true}
 				roes={1}

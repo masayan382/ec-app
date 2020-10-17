@@ -106,8 +106,7 @@ export const orderProduct = (productsInCart, amount) => {
 					};
 
 					orderRef.set(history);
-					dispatch(push("/"));
-					// dispatch(push("/order/complate"));
+					dispatch(push("/order/complete"));
 				})
 				.catch(() => {
 					alert(
@@ -158,5 +157,18 @@ export const saveProduct = (
 			.catch((error) => {
 				throw new Error(error);
 			});
+	};
+};
+
+export const addFavoriteToList = (addedFavorite) => {
+	return async (dispatch, getState) => {
+		const uid = getState().users.uid;
+		const favoRef = db
+			.collection("users")
+			.doc(uid)
+			.collection("favo")
+			.doc(addedFavorite.id);
+		addedFavorite["favoId"] = favoRef.id;
+		await favoRef.set(addedFavorite);
 	};
 };

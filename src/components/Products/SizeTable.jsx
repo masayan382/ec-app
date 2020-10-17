@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,7 +7,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import { makeStyles } from "@material-ui/styles";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 const useStyles = makeStyles({
 	iconCell: {
@@ -20,6 +19,7 @@ const useStyles = makeStyles({
 const SizeTable = (props) => {
 	const classes = useStyles();
 	const sizes = props.sizes;
+	const id = props.id;
 
 	return (
 		<TableContainer>
@@ -41,10 +41,9 @@ const SizeTable = (props) => {
 										<div>売切</div>
 									)}
 								</TableCell>
-								<TableCell className={classes.iconCell}>
-									<IconButton>
-										<FavoriteBorderIcon />
-									</IconButton>
+								<TableCell
+									className={classes.iconCell}
+								>
 								</TableCell>
 							</TableRow>
 						))}
