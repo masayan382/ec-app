@@ -7,8 +7,8 @@ import { push } from "connected-react-router";
 const SignIn = () => {
 	const dispatch = useDispatch();
 
-	const [email, setEmail] = useState(),
-		[password, setPassword] = useState();
+	const [email, setEmail] = useState(''),
+		[password, setPassword] = useState('');
 
 	const inputEmail = useCallback(
 		(event) => {
