@@ -2,15 +2,31 @@ import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+
 const SwitchFavoriteIcon = (props) => {
+	// console.log("size:" + props.size.size);
 	return (
-		<IconButton>
+		<>
 			{props.favorite === true ? (
-				<FavoriteIcon color='error' />
+				<IconButton
+					onClick={() => {
+						props.setFavorite(!props.favorite);
+						props.deleteFavorite();
+					}}
+				>
+					<FavoriteIcon color='error' />
+				</IconButton>
 			) : (
-				<FavoriteBorderIcon />
+				<IconButton
+					onClick={() => {
+						props.setFavorite(!props.favorite);
+						props.addFavorite();
+					}}
+				>
+					<FavoriteBorderIcon />
+				</IconButton>
 			)}
-		</IconButton>
+		</>
 	);
 };
 export default SwitchFavoriteIcon;

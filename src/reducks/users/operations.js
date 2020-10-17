@@ -1,11 +1,17 @@
 import {
 	fetchOrdersHistorytAction,
 	fetchProductsInCartAction,
+	fetchFavoriteInListAction,
 	signInAction,
 	signOutAction,
 } from "./actions";
 import { push } from "connected-react-router";
 import { auth, db, FirebaseTimestamp } from "../../firebase/index";
+import {
+	isValidEmailFormat,
+	isValidRequiredInput,
+} from "../../function/common";
+import { initProductsAction } from "../products/actions";
 
 export const addProductToCart = (addedProduct) => {
 	return async (dispatch, getState) => {
@@ -14,6 +20,14 @@ export const addProductToCart = (addedProduct) => {
 		addedProduct["cartId"] = cartRef.id;
 		await cartRef.set(addedProduct);
 		dispatch(push("/"));
+	};
+};
+
+export const deleteFavoriteToList = (id) => {
+	return async (getState) => {
+		const uid = getState().users.uid;
+		await db.collection("users").doc(uid).collection("favo").delete();
+		console.log("delete");
 	};
 };
 
@@ -40,6 +54,12 @@ export const fetchOrdersHistory = () => {
 export const fetchProductsInCart = (products) => {
 	return async (dispatch) => {
 		dispatch(fetchProductsInCartAction(products));
+	};
+};
+
+export const fetchFavoriteInList = (favorite) => {
+	return async (dispatch) => {
+		dispatch(fetchFavoriteInListAction(favorite));
 	};
 };
 
@@ -125,19 +145,24 @@ export const signIn = (email, password) => {
 export const signUp = (username, email, password, confirmPassword) => {
 	return async (dispatch) => {
 		//validation
-		if (
-			username === "" ||
-			email === "" ||
-			password === "" ||
-			confirmPassword === ""
-		) {
+		if (!isValidRequiredInput(email, password, confirmPassword)) {
 			alert("必須項目が未入力です。");
 			return false;
 		}
-		if (password !== confirmPassword) {
-			alert("パスワードが一致しません。もう一度お試し下さい。");
+
+		if (!isValidEmailFormat(email)) {
+			alert("メールアドレスの形式が不正です。もう1度お試しください。");
 			return false;
 		}
+		if (password !== confirmPassword) {
+			alert("パスワードが一致しません。もう1度お試しください。");
+			return false;
+		}
+		if (password.length < 6) {
+			alert("パスワードは6文字以上で入力してください。");
+			return false;
+		}
+
 		return auth
 			.createUserWithEmailAndPassword(email, password)
 			.then((result) => {
@@ -162,6 +187,11 @@ export const signUp = (username, email, password, confirmPassword) => {
 							dispatch(push("/"));
 						});
 				}
+			})
+			.catch((error) => {
+				// dispatch(hideLoadingAction());
+				alert("アカウント登録に失敗しました。もう1度お試しください。");
+				throw new Error(error);
 			});
 	};
 };

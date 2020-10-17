@@ -106,8 +106,7 @@ export const orderProduct = (productsInCart, amount) => {
 					};
 
 					orderRef.set(history);
-					dispatch(push("/"));
-					// dispatch(push("/order/complate"));
+					dispatch(push("/order/complete"));
 				})
 				.catch(() => {
 					alert(
@@ -127,8 +126,7 @@ export const saveProduct = (
 	gender,
 	price,
 	images,
-	sizes,
-	favorite
+	sizes
 ) => {
 	return async (dispatch) => {
 		const timestamp = FirebaseTimestamp.now();
@@ -141,7 +139,6 @@ export const saveProduct = (
 			price: parseInt(price, 10),
 			sizes: sizes,
 			updated_at: timestamp,
-			favorite: favorite,
 		};
 
 		if (id === "") {
@@ -163,30 +160,15 @@ export const saveProduct = (
 	};
 };
 
-// test
-export const saveFavorite = (id, favorite) => {
-	return async (dispatch) => {
-		const timestamp = FirebaseTimestamp.now();
-		const data = {
-			updated_at: timestamp,
-			favorite: favorite,
-		};
-
-		if (id === "") {
-			const ref = productsRef.doc();
-			data.created_at = timestamp;
-			id = ref.id;
-			data.id = id;
-		}
-
-		return productsRef
-			.doc(id)
-			.set(data, { merge: true })
-			.then(() => {
-				console.log("update/favorite");
-			})
-			.catch((error) => {
-				throw new Error(error);
-			});
+export const addFavoriteToList = (addedFavorite) => {
+	return async (dispatch, getState) => {
+		const uid = getState().users.uid;
+		const favoRef = db
+			.collection("users")
+			.doc(uid)
+			.collection("favo")
+			.doc(addedFavorite.id);
+		addedFavorite["favoId"] = favoRef.id;
+		await favoRef.set(addedFavorite);
 	};
 };

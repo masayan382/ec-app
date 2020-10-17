@@ -76,6 +76,15 @@ body {
 	flex-flow: row wrap;
 }
 
+.p-grid__flex > p {
+	padding-top: 15px;
+}
+.p-grid__flex {
+	display: flex;
+	justify-content: space-between;
+	vertical-align: top;
+}
+
 .p-grid__list-images {
 	display: flex;
 	flex-flow: wrap;
@@ -110,6 +119,10 @@ body {
 }
 
 /*********** Footer ***********/
+footer {
+	padding: 10px 0;
+	background-color: #444;
+}
 .l-footer {
 	display: flex;
 	flex-flow: row wrap;
@@ -119,7 +132,8 @@ body {
 
 .l-footer > a {
 	margin-right: 1rem;
-	color: #444;
+	/* color: #444; */
+	color: #fff;
 	font-size: 0.9rem;
 }
 
